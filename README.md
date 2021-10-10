@@ -1,9 +1,9 @@
 # Goal
-*describe how this web app will (evantually) earn money or make the world a better place*
+*describe how this web app will (evantually) earn money or make the world a better place*  
 School restaurant web application for students to view the menu and be able to order and pay in advance. The school will be able to see all orders and can create/view/edit/remove promotions, staff members and menus.
 
 # Acceptance criteria
-*how do we know that the goals have been reached?*
+*how do we know that the goals have been reached?*  
 As a student I can…
 * … see the menu of today
 * … see the allergies, price and availability of a meal
