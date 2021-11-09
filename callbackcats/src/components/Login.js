@@ -2,7 +2,7 @@ import { Button, FloatingLabel, Form } from "react-bootstrap"
 
 const Login = () => (
     <div className="d-flex align-items-center login">
-        <div className="login-container p-4 rounded border">
+        <div className="login-container bg-light p-4 rounded border">
             <h1 className="display-1 mb-4">Log in</h1>
             
             <Form method="post">
