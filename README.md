@@ -1,7 +1,7 @@
 # Goal
 *describe how this web app will (evantually) earn money or make the world a better place*  
 
-School restaurant web application for students to view the menu and be able to order and pay in advance. The school will be able to see all orders and can create/view/edit/remove promotions, staff members and menus.
+School restaurant web application for students to view the menu and be able to order and pay in advance. The school will be able to see all orders and can create/view/edit/remove menus and products.
 
 The app allows for students to not have to queue for their meals. The school restaurant also has more information about how many meals to make in order to reduce food waste and this also allows for cost savings.
 
