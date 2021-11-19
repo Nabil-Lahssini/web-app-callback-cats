@@ -26,7 +26,6 @@ As a school restaurant employee I can…
 * … check out an order when it is ready
 * … create/view/edit/remove menus
 * … create/view/edit/remove products
-* … create/view/edit/remove promotions
 * … check the stock
 
 The stock changes when products are ordered and payed.
@@ -34,7 +33,6 @@ School restaurant employee is one general account for every employee working in 
 Users such as students will be be able to login via the EhB login system.
 
 Allergies, price and amount of the product are filled in by the school restaurant employee.
-Promotions are rewarded to certain products/meals and are chosen by the restaurant and are visible on the menu.
 
 
 # Threat model
