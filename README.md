@@ -65,6 +65,14 @@ Allergies, price and amount of the product are filled in by the school restauran
 | Denial of Service | Availability | The system can be overwhelmed resulting in the server going offline. | Protection by Cloudflare/Combell |
 | Elevation of Privilege | Authorization | When an attacker tries to take on the identity of a higher level account in order to get more permissions. | Authorization, using roles with permissions |
 
+## Specific threats
+| Threat | Solution | 
+| ------ | -------- |
+| Correct/valid payment | Stripe will manage the payments and its security |
+| Manage authentication/authorization for who can read/write data | OAuth will provide security for the authorization/authentication. |
+| Man in the middle attack | The application will be using HTTPS to prevent these attacks. |
+
+
 
 
 # Deployment
