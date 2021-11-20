@@ -1,13 +1,15 @@
 # Goal
-*describe how this web app will (evantually) earn money or make the world a better place*  
+We will create a restaurant web application, which will also be available both on your desktop as your phone. In this app, students will be able to view the menu with all of the available products and which allergies this product has. This way, the student knows whether or not it is safe for them to consume. The students will also be able to place orders and pay in advance. To accomplish this, we will be using Stripe to manage payments and keep track of them.
 
-School restaurant web application for students to view the menu and be able to order and pay in advance. The school will be able to see all orders and can create/view/edit/remove menus and products.
+The restaurant employees will be able to view all placed orders with its details. This will allow them to view, create, edit and remove menus and products. This means that the employees will have a dashboard available to them where they can easily access these statistics. Here they will be able to manage their stock, orders, menus and products.
 
-The app allows for students to not have to queue for their meals. The school restaurant also has more information about how many meals to make in order to reduce food waste and this also allows for cost savings.
+This app will provide students with an easier way to buy their lunch, removing the need to wait in long queues. The restaurant employees will see more information about sales, stock, payments, ... This app will also reduce food waste, which allows for cost savings.
+
+To accomplish this, we will be using JavaScript React to create and serve the website. This website will be using our own API, which will be made in NodeJS. Both of these will be running in the cloud to ensure its availability.
+
+
 
 # Acceptance criteria
-*how do we know that the goals have been reached?*  
-
 As a student I can…
 * … see the menu of today
 * … see the allergies, price and availability of a product/meal
@@ -37,8 +39,6 @@ Allergies, price and amount of the product are filled in by the school restauran
 
 
 # Threat model
-*describe your threat model. One or more architectural diagram expected. Also a list of the principal threats and what you will do about them*  
-  
 <img src="img/threat_model.png" alt="drawing" width="700"/>
 
 ## OWASP
