@@ -1,3 +1,4 @@
+/* van joris */
 *, html {
 	margin: 0;
 	padding: 0;
@@ -18,4 +19,25 @@ body {
 	width: 30rem;
 	color: #000000;
 	margin: 0 auto;
+}
+/* van joris ^^^ */
+
+.centered {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.stock_form {
+  width: 500px;
+}
+
+
+
+.dashboard_tile {
+  width: 18rem;
+  height: 10rem;
+  margin: 5px;
+  float:left;
 }
