@@ -7,12 +7,14 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js"
   },
-  "author": "Jo Rokegem",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "mongodb": "^4.1.2",
+    "mongoose": "^6.0.13",
+    "oauth2-server": "^3.1.1",
     "qrcode": "^1.4.4",
     "speakeasy": "^2.0.0"
   },
