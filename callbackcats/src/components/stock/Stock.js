@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
-// This will require to npm install axios
+import { useHistory } from "react-router";
 // import axios from 'axios';
 
 import { Link } from "react-router-dom";
 
-const Stock = _ => {
+const Stock = props => {
     const [records, setRecords] = useState([]);
+
+    const history = useHistory()
 
     const handleDeleteRecord = id => {
         // axios.delete("http://localhost:5000/" + id)
@@ -29,33 +31,42 @@ const Stock = _ => {
     return (
         <div className="App">
             
-          <div style={{width:'fit-content', margin:'0 auto', padding:'2.5em'}}>
-              <h1>Stock</h1>
-          </div>
+          {props.user != null && props.user.type === "admin" &&
+            <div>
+              <div style={{width:'fit-content', margin:'0 auto', padding:'2.5em'}}>
+                <h1>Stock</h1>
+              </div>
 
-          <table className="table table-striped" style={{ marginTop: 20 }}>
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Quantity</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-                {records.map(record => {
+              <table className="table table-striped" style={{ marginTop: 20 }}>
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Quantity</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {records.map(record => {
                     return (
-                        <tr>
-                            <td>{record.name}</td>
-                            <td>{record.quantity}</td>
-                            <td>
-                                <Link to={"/edit/" + record._id}>Edit</Link> |
-                                <a href="/" onClick={() => { handleDeleteRecord(record._id)}}>Delete</a>
-                            </td>
-                        </tr>
+                      <tr>
+                        <td>{record.name}</td>
+                        <td>{record.quantity}</td>
+                        <td>
+                          <Link to={"/edit/" + record._id}>Edit</Link> |
+                          <a href="/" onClick={() => { handleDeleteRecord(record._id)}}>Delete</a>
+                        </td>
+                      </tr>
                     )
-                })}
-            </tbody>
-          </table>
+                  })}
+                </tbody>
+              </table>
+            </div>
+          }
+
+          {props.user === null &&
+            history.push("/")
+          }
+
         </div>
       );
 }
