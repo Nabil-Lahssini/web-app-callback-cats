@@ -1,3 +1,6 @@
+import { Button, Table } from "react-bootstrap";
+
+
 const Cart = props => {
 
     return (
@@ -7,55 +10,55 @@ const Cart = props => {
                 <h1>Cart</h1>
             </div>
 
-            <div className="container">
-                <table class="table">
+            <div className="mx-auto" style={{ width: "50%"}}>
+                <Table class="table">
                     <thead>
                         <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Name</th>
-                            <th scope="col">Amount</th>
-                            <th scope="col">Price</th>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Amount</th>
+                            <th>Price</th>
                         </tr>
                     </thead>
                     <tbody>
                         {props.cart.map(item => {
                             return(
                                 <tr key={item.id}>
-                                    <th scope="row">{item.id}</th>
+                                    <th>{item.id}</th>
                                     <td>{item.name}</td>
                                     <td>{item.quantity}</td>
                                     <td>{item.price}</td>
-                                    <td><button style={{border: "none", backgroundColor: "white"}} onClick={_ => props.removeFromCart(item.id)}>Remove</button></td>
+                                    <td><Button onClick={_ => props.removeFromCart(item.id)}>Remove</Button></td>
                                 </tr>
                             )
                         })
                         }
 
                         <tr>
-                            <th scope="row">1</th>
+                            <th>1</th>
                             <td>Lasagne</td>
                             <td><input type="number" className="form-control" defaultValue="1" /></td>
                             <td>&euro; 5.00</td>
-                            <td><button style={{border: "none", backgroundColor: "white"}}>Remove</button></td>
+                            <td><Button variant="danger">Remove</Button></td>
                         </tr>
                         <tr>
-                            <th scope="row">2</th>
+                            <th>2</th>
                             <td>Hamburger</td>
                             <td><input type="number" className="form-control" defaultValue="1" /></td>
                             <td>&euro; 4.00</td>
-                            <td><button style={{border: "none", backgroundColor: "white"}}>Remove</button></td>
+                            <td><Button variant="danger">Remove</Button></td>
                         </tr>
                         <tr>
-                            <th scope="row">3</th>
+                            <th>3</th>
                             <td>Broodje</td>
                             <td><input type="number" className="form-control" defaultValue="1" /></td>
                             <td>&euro; 2.50</td>
-                            <td><button style={{border: "none", backgroundColor: "white"}}>Remove</button></td>
+                            <td><Button variant="danger">Remove</Button></td>
                         </tr>
                     </tbody>
-                </table>
+                </Table>
 
-                <button className="btn btn-success">Pay</button>
+                <Button variant="primary">Pay</Button>
             </div>
             
         </div>

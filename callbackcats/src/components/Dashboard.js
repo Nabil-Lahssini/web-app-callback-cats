@@ -1,14 +1,22 @@
 import React from "react";
 
-import { Card } from "react-bootstrap";
+import { Card, Breadcrumb } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 const Dashboard = _ => {
   return (
-    <div className="App" style={{ margin: "15px"}}>
-      
-      <div style={{width:'fit-content', margin:'0 auto', padding:'2.5em'}}>
+    <div style={{ margin: "15px" }}>
+
+      <div style={{ width: 'fit-content', margin: '0 auto', padding: '2.5em' }}>
         <h1>Dashboard</h1>
+      </div>
+
+      <div>
+        <Breadcrumb>
+          <Breadcrumb.Item href="/dashboard" active>Dashboard</Breadcrumb.Item>
+          <Breadcrumb.Item href="/dashboard/stock">Stock Management</Breadcrumb.Item>
+          <Breadcrumb.Item href="/dashboard/orders">Orders Management</Breadcrumb.Item>
+        </Breadcrumb>
       </div>
 
       <div className="dashboard_tiles">

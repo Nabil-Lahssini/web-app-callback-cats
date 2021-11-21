@@ -2,15 +2,11 @@ import { Button, FloatingLabel, Form } from "react-bootstrap"
 
 const Login = _ => {
     return(
-        <div className="App" style={{ margin: "15px"}}>
-      
-            <div style={{width:'fit-content', margin:'0 auto', padding:'2.5em'}}>
-                <h1>Login</h1>
-            </div>
-
-            <div className="d-flex align-items-center login">
-                <div className="login-container bg-light p-4 rounded border">
-                    <h1 className="display-1 mb-4">Log in</h1>
+        <div>
+            <div className="login">
+                <div style={{width:'fit-content', margin:'0 auto', padding:'2.5em'}} className="mx-auto">
+                    <h1>Log in</h1>
+                    <br></br>
                     
                     <Form method="post">
                         {/* Email */}
@@ -23,6 +19,7 @@ const Login = _ => {
                             <Form.Control type="password" placeholder="Password" />
                         </FloatingLabel>
 
+                        <br></br>
                         {/* Remember me */}
                         <Form.Check inline label="Remember me" type="checkbox" id="rememberMe" />
 
