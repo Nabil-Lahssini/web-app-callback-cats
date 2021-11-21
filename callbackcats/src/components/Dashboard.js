@@ -13,7 +13,7 @@ const Dashboard = _ => {
 
       <div className="dashboard_tiles">
         <div className="tile">
-          <Link to="/stock">
+          <Link to="/dashboard/stock">
             <Card className="dashboard_tile">
               <Card.Body>
                 <Card.Title>Stock Management</Card.Title>
@@ -26,7 +26,7 @@ const Dashboard = _ => {
           </Link>
         </div>
         <div>
-          <Link to="/orders">
+          <Link to="/dashboard/orders">
             <Card className="dashboard_tile">
               <Card.Body>
                 <Card.Title>Orders Management</Card.Title>
@@ -40,7 +40,7 @@ const Dashboard = _ => {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
 export default Dashboard;

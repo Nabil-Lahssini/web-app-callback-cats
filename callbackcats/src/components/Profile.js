@@ -19,7 +19,7 @@ const Profile = props => {
                 <div class="tab-content" id="myTabContent">
                     <div class="tab-pane fade show active" id="orders" role="tabpanel" aria-labelledby="orders-tab" style={{margin:"3em"}}>
                         <div class="accordion" id="accordionExample">
-                            {props.user && props.user.orders.map(order => {
+                            {/* {props.user && props.user.orders.map(order => {
                                 return(
                                     <div class="accordion-item" key={order.id}>
                                         <h2 class="accordion-header" id="headingOne">
@@ -40,7 +40,7 @@ const Profile = props => {
                                         </div>
                                     </div>
                                 )
-                            })}
+                            })} */}
                             <div class="accordion-item">
                                 <h2 class="accordion-header" id="headingOne">
                                     <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">

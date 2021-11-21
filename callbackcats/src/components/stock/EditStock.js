@@ -48,7 +48,7 @@ const EditStock = props => {
 
             <div style={{width:'fit-content', margin:'0 auto', padding:'2.5em'}}>
                 <h1>Update Stock Record</h1>
-                <Link to="/stock">
+                <Link to="/dashboard/stock">
                     <button type="button" className="btn btn-danger">Go Back</button>
                 </Link>
             </div>

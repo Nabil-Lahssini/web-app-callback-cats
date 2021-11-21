@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 const Stock = _ => {
-    const [records, setRecords] = useState(null);
+    const [records, setRecords] = useState([]);
 
     const handleDeleteRecord = id => {
         // axios.delete("http://localhost:5000/" + id)
@@ -28,6 +28,11 @@ const Stock = _ => {
 
     return (
         <div className="App">
+            
+          <div style={{width:'fit-content', margin:'0 auto', padding:'2.5em'}}>
+              <h1>Stock</h1>
+          </div>
+
           <table className="table table-striped" style={{ marginTop: 20 }}>
             <thead>
               <tr>

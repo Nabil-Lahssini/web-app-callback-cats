@@ -7,7 +7,7 @@ const Orders = _ => {
             
             <div style={{width:'fit-content', margin:'0 auto', padding:'2.5em'}}>
                 <h1>Orders Management</h1>
-                <Link to="/">
+                <Link to="/dashboard">
                     <Button variant="danger">Go Back</Button>
                 </Link>
             </div>
