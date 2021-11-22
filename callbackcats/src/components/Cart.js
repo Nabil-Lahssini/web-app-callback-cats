@@ -1,65 +1,54 @@
-import { Button, Table } from "react-bootstrap";
+import { useHistory } from "react-router";
 
+import { Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 const Cart = props => {
+    const history = useHistory();
 
     return (
         <div className="App">
             
-            <div style={{width:'fit-content', margin:'0 auto', padding:'2.5em'}}>
-                <h1>Cart</h1>
-            </div>
+            {props.user != null && props.user.type === "normal" &&
+                <div>
+                    <div style={{width:'fit-content', margin:'0 auto', padding:'2.5em'}}>
+                        <h1>Cart</h1>
+                    </div>
 
-            <div className="mx-auto" style={{ width: "50%"}}>
-                <Table class="table">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Name</th>
-                            <th>Amount</th>
-                            <th>Price</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {props.cart.map(item => {
-                            return(
-                                <tr key={item.id}>
-                                    <th>{item.id}</th>
-                                    <td>{item.name}</td>
-                                    <td>{item.quantity}</td>
-                                    <td>{item.price}</td>
-                                    <td><Button onClick={_ => props.removeFromCart(item.id)}>Remove</Button></td>
+                    <div className="container">
+                        <table className="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Amount</th>
+                                    <th scope="col">Price</th>
                                 </tr>
-                            )
-                        })
-                        }
+                            </thead>
+                            <tbody>
+                                {props.cart.map(item => {
+                                    return(
+                                        <tr key={item.product._id}>
+                                            <th scope="row">{props.cart.indexOf(item) + 1}</th>
+                                            <td>{item.product.name}</td>
+                                            <td>{item.quantity}</td>
+                                            <td>{item.product.price/100}</td>
+                                            <td><Button variant="danger" onClick={() => props.removeFromCart(item.product)}>Remove</Button></td>
+                                        </tr>
+                                    )
+                                })
+                                }
+                            </tbody>
+                        </table>
 
-                        <tr>
-                            <th>1</th>
-                            <td>Lasagne</td>
-                            <td><input type="number" className="form-control" defaultValue="1" /></td>
-                            <td>&euro; 5.00</td>
-                            <td><Button variant="danger">Remove</Button></td>
-                        </tr>
-                        <tr>
-                            <th>2</th>
-                            <td>Hamburger</td>
-                            <td><input type="number" className="form-control" defaultValue="1" /></td>
-                            <td>&euro; 4.00</td>
-                            <td><Button variant="danger">Remove</Button></td>
-                        </tr>
-                        <tr>
-                            <th>3</th>
-                            <td>Broodje</td>
-                            <td><input type="number" className="form-control" defaultValue="1" /></td>
-                            <td>&euro; 2.50</td>
-                            <td><Button variant="danger">Remove</Button></td>
-                        </tr>
-                    </tbody>
-                </Table>
+                        <Link to={"/checkout"} className="btn btn-success">Checkout</Link>
+                    </div>
+                </div>
+            }
 
-                <Button variant="primary">Pay</Button>
-            </div>
+            {props.user === null &&
+                history.push("/")
+            }
             
         </div>
     );

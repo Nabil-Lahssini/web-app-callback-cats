@@ -1,44 +1,49 @@
 import axios from "axios";
 
 const http = axios.create({
-  baseURL: "http://localhost:4001/api/v1/",
+  baseURL: "http://localhost:80/api/v1/",
   headers: {
-    "Content-type": "application/json"
-  }
+    "Content-type": "application/json",
+  },
+  withCredentials: true
 });
 
-export const getProducts = _ => {
-    return http.get(`getProducts`);
+export const getProduct = productId => {
+  return http.get(`getProduct/${productId}`);
 }
 
 export const getMenus = _ => {
-    return http.get(`getMenus`);
+  return http.get("getMenus");
 }
 
 export const login = user => {
-    return http.post(`login`, {user});
+  return http.post("login", user);
 }
 
-export const register = user => {
-    return http.post(`register`, {user});
+export const createPaymentIntent = (items) => {
+  return http.post(`createPaymentIntent`, {items});
 }
 
-export const verifyUserLogin = token => {
-    return http.post(`verifyUserLogin`, token);
-}
+// export const register = user => {
+//     return http.post(`register`, user);
+// }
 
-export const verifyUserRegister = token => {
-    return http.post(`verifyUserRegister`, token);
-}
+// export const verifyUserLogin = token => {
+//     return http.post(`verifyUserLogin`, token);
+// }
 
-export const getDataUrl = userId => {
-    return http.post(`getDataUrl`, {userId});
-}
+// export const verifyUserRegister = token => {
+//     return http.post(`verifyUserRegister`, token);
+// }
 
-export const enableTwofa = token => {
-    return http.post(`enableTwofa`, token);
-}
+// export const getDataUrl = userId => {
+//     return http.post(`getDataUrl`, {userId});
+// }
 
-export const disableTwofa = token => {
-    return http.post(`disableTwofa`, token);
-}
+// export const enableTwofa = token => {
+//     return http.post(`enableTwofa`, token);
+// }
+
+// export const disableTwofa = token => {
+//     return http.post(`disableTwofa`, token);
+// }

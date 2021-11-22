@@ -1,73 +1,51 @@
-import { Button, Form, Card, Modal } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
+import { useHistory } from "react-router";
 
-import { useState } from "react";
+const CreateSandwich = props => {
+    let options = ['Cheese', 'Salami', 'Ham'];
 
+    const history = useHistory()
 
-const CreateSandwich = _ => {
-    let options = ['Cheese', 'Salami', 'Ham', 'Tuna'];
+    return(
+        <div className="App" style={{ margin: "15px"}}>
+            
+          {props.user != null && props.user.type === "normal" &&
+            <div>
+                <div style={{width:'fit-content', margin:'0 auto', padding:'2.5em'}}>
+                    <h1>CreateSandwich</h1>
+                </div>
 
-    const [show, setShow] = useState(false);
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+                <div className="d-flex align-items-center login">
+                    <div className="container w-50 bg-light p-4 rounded border">
+                        <h1 className="display-3">Create sandwich</h1>
+                        <p className="lead mb-4">Choose which ingredients you would like to add to your sandwich!</p>
 
-    return (
-        <div style={{ margin: "15px" }}>
-            <Button variant="primary" onClick={handleShow} style={{ padding: "25px"}}>
-                Start making your own sandwich
-            </Button>
+                        <Form>
+                            {options.map((type) => (
+                                <div key={`${type}`}>
+                                    <Form.Check 
+                                        type='checkbox'
+                                        id={`${type}`}
+                                        label={`${type}`}
+                                    />
+                                </div>
+                            ))}
 
-            <Modal show={show} onHide={handleClose}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Choose your ingredients</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <Form id="form-sandwich">
-                        {options.map((type) => (
-                            <div key={`${type}`}>
-                                <Form.Check
-                                    type='checkbox'
-                                    id={`${type}`}
-                                    label={`${type}`}
-                                />
-                            </div>
-                        ))}
-                    </Form>
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
-                        Close
-                    </Button>
-                    <Button variant="primary" onClick={handleClose} type="submit" form="form-sandwich" href="/cart">
-                        Add to cart
-                    </Button>
-                </Modal.Footer>
-            </Modal>
+                            {/* Submit */}
+                            <Button variant="outline-dark" href="/cart" className="mt-2">
+                                Create &amp; Add to cart
+                            </Button>
+                        </Form>
+                    </div>
+                </div>
+            </div>
+          }
 
-            {/* <Card className="mx-auto" style={{ width: '35rem' }}>
-                <Card.Body>
-                    <Card.Title>Make your own sandwich</Card.Title>
-                    <Card.Subtitle className="mb-2 text-muted">Choose which ingredients you would like to add to your sandwich!</Card.Subtitle>
-                    <Form>
-                        {options.map((type) => (
-                            <div key={`${type}`}>
-                                <Form.Check
-                                    type='checkbox'
-                                    id={`${type}`}
-                                    label={`${type}`}
-                                />
-                            </div>
-                        ))}
-
-                        <br></br>
-
-                        <Button variant="outline-dark" href="/cart" className="mt-2">
-                            Create &amp; Add to cart
-                        </Button>
-                    </Form>
-                </Card.Body>
-            </Card> */}
+          {props.user === null &&
+            history.push("/")
+          }
         </div>
-    )
+    )  
 }
 
 export default CreateSandwich

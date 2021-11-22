@@ -1,83 +1,89 @@
-import { Button, Table, Breadcrumb } from "react-bootstrap"
+import { Button, Table } from "react-bootstrap"
 import { Link } from "react-router-dom";
+import { useHistory } from "react-router";
 
-const Orders = _ => {
-  return (
-    <div className="App" style={{ margin: "15px" }}>
+const Orders = props => {
+    const history = useHistory()
 
-      <div style={{ width: 'fit-content', margin: '0 auto', padding: '2.5em' }}>
-        <h1>Orders Management</h1>
+    return (
+      <div className="App" style={{ margin: "15px"}}>
+          
+        {props.user != null && props.user.type === "admin" &&
+          <div>
+            <div style={{width:'fit-content', margin:'0 auto', padding:'2.5em'}}>
+              <h1>Orders Management</h1>
+              <Link to="/dashboard">
+                <Button variant="danger">Go Back</Button>
+              </Link>
+            </div>
+
+            <h2>Ongoing orders</h2>
+            <Table striped bordered hover>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Order</th>
+                  <th>Ordered by</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>Tonijn (wit brood)</td>
+                  <td>Souheib Touri</td>
+                  <td>
+                    <Button variant="success">Process</Button>
+                    { ' ' }
+                    <Button variant="danger">Cancel</Button>
+                  </td>
+                </tr>
+              </tbody>
+            </Table>
+  
+            <h2>Processed orders</h2>
+            <Table variant="success" striped bordered hover>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Order</th>
+                  <th>Ordered by</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>Tonijn (wit brood)</td>
+                  <td>Souheib Touri</td>
+                </tr>
+              </tbody>
+            </Table>
+  
+            <h2>Cancelled orders</h2>
+            <Table variant="danger" striped bordered hover>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Order</th>
+                  <th>Ordered by</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>Tonijn (wit brood)</td>
+                  <td>Souheib Touri</td>
+                </tr>
+              </tbody>
+            </Table>
+          </div>
+        }
+
+        {props.user === null &&
+          history.push("/")
+        }
       </div>
-
-      <div>
-        <Breadcrumb>
-          <Breadcrumb.Item href="/dashboard">Dashboard</Breadcrumb.Item>
-          <Breadcrumb.Item href="/dashboard/stock">Stock Management</Breadcrumb.Item>
-          <Breadcrumb.Item href="/dashboard/orders" active>Orders Management</Breadcrumb.Item>
-        </Breadcrumb>
-      </div>
-
-      <h2>Ongoing orders</h2>
-      <Table striped bordered hover>
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Order</th>
-            <th>Ordered by</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>1</td>
-            <td>Tonijn (wit brood)</td>
-            <td>Souheib Touri</td>
-            <td>
-              <Button variant="success">Process</Button>
-              {' '}
-              <Button variant="danger">Cancel</Button>
-            </td>
-          </tr>
-        </tbody>
-      </Table>
-
-      <h2>Processed orders</h2>
-      <Table variant="success" striped bordered hover>
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Order</th>
-            <th>Ordered by</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>1</td>
-            <td>Tonijn (wit brood)</td>
-            <td>Souheib Touri</td>
-          </tr>
-        </tbody>
-      </Table>
-
-      <h2>Cancelled orders</h2>
-      <Table variant="danger" striped bordered hover>
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Order</th>
-            <th>Ordered by</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>1</td>
-            <td>Tonijn (wit brood)</td>
-            <td>Souheib Touri</td>
-          </tr>
-        </tbody>
-      </Table>
-    </div>
-  );
+    );
 }
 
 export default Orders;

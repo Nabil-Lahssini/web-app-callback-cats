@@ -22,10 +22,11 @@ import Stock from './components/stock/Stock';
 import EditStock from './components/stock/EditStock'
 import CreateStock from './components/stock/CreateStock'
 import Orders from './components/Orders'
+import Checkout from './components/checkout/Checkout';
 
 function App() {
   const [cart, setCart] = useState(JSON.parse(localStorage.getItem('cart')) || []);
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')) || {type: "normal"});
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')) || null);
 
   const login = async user => {
     localStorage.setItem("user", JSON.stringify(user));
@@ -51,17 +52,17 @@ function App() {
     setCart(c);
   }
 
-  const updateCart = async (id, quantity) => {
-    let c = cart.map(i => {
-      if (i.product._id === id) i.quantity = quantity
-      return i;
+  const updateCart = async (product, quantity) => {
+    let c = cart.map(item => {
+      if (item.product._id === product._id) item.quantity = quantity
+      return item;
     });
     localStorage.setItem('cart', JSON.stringify(c));
     setCart(c);
   }
 
-  const removeFromCart = async id => {
-    let c = cart.filter(item => item.product._id !== id);
+  const removeFromCart = async product => {
+    let c = cart.filter(item => item.product._id !== product._id);
     localStorage.setItem('cart', JSON.stringify(c));
     setCart(c);
   }
@@ -75,61 +76,67 @@ function App() {
   return (
     <div className="App">
 
-      <Navbar bg="light" expand="lg">
-        <Container>
-          <Navbar.Brand href="/">
-            <img
-              src={logo}
-              width="30"
-              height="30"
-              className="d-inline-block align-top"
-              alt="Eatee logo"
-            />
-            Eatee
-          </Navbar.Brand>
-          <Navbar.Toggle aria-controls="basic-navbar-nav" />
-          <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="me-auto">
-              <Nav.Link href="menu">Menu</Nav.Link>
-              <Nav.Link href="cart">Cart</Nav.Link>
+      {user != null &&
+        <Navbar bg="light" expand="lg">
+          <Container>
+            <Navbar.Brand href="/">
+              <img
+                src={logo}
+                width="30"
+                height="30"
+                className="d-inline-block align-top"
+                alt="Eatee logo"
+              />
+              {" "}Eatee
+            </Navbar.Brand>
+            <Navbar.Toggle aria-controls="basic-navbar-nav" />
+            <Navbar.Collapse id="basic-navbar-nav">
+              <Nav className="me-auto">
+                <Nav.Link href="/menu">Menu</Nav.Link>
 
-              {/* {user.type == "normal" && */}
-              <Nav.Link href="createsandwich">Create a sandwich</Nav.Link>
-              {/* } */}
-              
-              <Nav.Link href="login">Login</Nav.Link>
+                {user != null && user.type === "normal" &&
+                  <div>
+                    <Nav.Link href="/createsandwich">Create a sandwich</Nav.Link>
+                    <Nav.Link href="/cart">Cart</Nav.Link>
+                  </div>
+                }
+                
+                {user == null &&
+                  <Nav.Link href="/login">Login</Nav.Link>
+                }
 
-              {/* admin */}
-              {user.type == "admin" &&
-                <div>
-                  <Nav.Link href="dashboard">Dashboard</Nav.Link>
-                </div>
-              }
+                {/* admin */}
+                {user != null && user.type === "admin" &&
+                  <div>
+                    <Nav.Link href="/dashboard">Dashboard</Nav.Link>
+                  </div>
+                }
 
-              {/* student or teacher */}
-              {user.type == "normal" &&
-                <div>
-                  <Nav.Link href="profile">Profile</Nav.Link>
-                </div>
-              }
-            </Nav>
-          </Navbar.Collapse>
-        </Container>
-      </Navbar>
+                {/* student or teacher */}
+                {user != null && user.type === "normal" &&
+                  <div>
+                    <Nav.Link href="/profile">Profile</Nav.Link>
+                  </div>
+                }
+              </Nav>
+            </Navbar.Collapse>
+          </Container>
+        </Navbar>
+      }
       
       <Switch>
         <Route
           exact
           path={["/", "/menu"]}
           render={ props => (
-            <Menu {...props}  />
+            <Menu {...props} user={user} />
           )}>
         </Route>
         <Route 
           exact
           path="/cart"
           render={ props => (
-            <Cart {...props} cart={cart} removeFromCart={removeFromCart} updateCart={updateCart} />
+            <Cart {...props} user={user} cart={cart} removeFromCart={removeFromCart} />
           )}>
         </Route>
         <Route
@@ -141,58 +148,65 @@ function App() {
         </Route>
         <Route
           exact
-          path="/product"
+          path="/product/:id"
           render={ props => (
-            <Product {...props}  />
+            <Product {...props} user={user} cart={cart} addToCart={addToCart} updateCart={updateCart} removeFromCart={removeFromCart} />
           )}>
         </Route>
         <Route
         exact
         path="/dashboard"
         render ={ props => (
-          <Dashboard {...props} />
+          <Dashboard {...props} user={user} logout={logout} />
         )}>
         </Route>
         <Route
         exact
         path="/createsandwich"
         render ={ props => (
-          <CreateSandwich {...props} />
+          <CreateSandwich {...props} user={user} />
         )}>
         </Route>
         <Route
         exact
         path="/login"
         render ={ props => (
-          <Login {...props} />
+          <Login {...props} user={user} login={login} />
         )}>
         </Route>
         <Route
         exact
         path="/dashboard/stock"
         render ={ props => (
-          <Stock {...props} />
+          <Stock {...props} user={user} />
         )}>
         </Route>
         <Route
         exact
         path="/dashboard/stock/create"
         render ={ props => (
-          <CreateStock {...props} />
+          <CreateStock {...props} user={user} />
         )}>
         </Route>
         <Route
         exact
         path="/dashboard/stock/edit"
         render ={ props => (
-          <EditStock {...props} />
+          <EditStock {...props} user={user} />
         )}>
         </Route>
         <Route
         exact
         path="/dashboard/orders"
         render ={ props => (
-          <Orders {...props} />
+          <Orders {...props} user={user} />
+        )}>
+        </Route>
+        <Route
+        exact
+        path="/checkout"
+        render ={ props => (
+          <Checkout {...props} user={user} cart={cart} emptyCart={emptyCart} />
         )}>
         </Route>
       </Switch>
