@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router";
-// import axios from 'axios';
+import { Table } from "react-bootstrap";
 
 import { Link } from "react-router-dom";
 
@@ -37,7 +37,7 @@ const Stock = props => {
                 <h1>Stock</h1>
               </div>
 
-              <table className="table table-striped" style={{ marginTop: 20 }}>
+              <Table className="table table-striped" style={{ marginTop: 20 }}>
                 <thead>
                   <tr>
                     <th>Name</th>
@@ -59,7 +59,7 @@ const Stock = props => {
                     )
                   })}
                 </tbody>
-              </table>
+              </Table>
             </div>
           }
 

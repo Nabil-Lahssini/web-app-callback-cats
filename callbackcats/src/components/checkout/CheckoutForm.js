@@ -1,12 +1,20 @@
 import {
     useState
 } from "react";
+
+import {
+    Form,
+    Button,
+    Spinner,
+    Alert
+} from "react-bootstrap";
+
 import {
     CardElement,
     useStripe,
     useElements
 } from "@stripe/react-stripe-js";
-import { 
+import {
     createPaymentIntent
 } from "../../services/service";
 
@@ -62,71 +70,77 @@ const CheckoutForm = props => {
         if (!stripe || !elements) return;
         else {
             createPaymentIntent(props.cart)
-            .then(async response => {
-                const payload = await stripe.confirmCardPayment(response.data.clientSecret, {
-                    payment_method: {
-                        card: elements.getElement(CardElement)
-                    }
-                });
+                .then(async response => {
+                    const payload = await stripe.confirmCardPayment(response.data.clientSecret, {
+                        payment_method: {
+                            card: elements.getElement(CardElement)
+                        }
+                    });
 
-                if (payload.error) {
-                    setError(`Payment failed ${payload.error.message}`);
-                    setProcessing(false);
-                } else {
-                    
+                    if (payload.error) {
+                        setError(`Payment failed ${payload.error.message}`);
+                        setProcessing(false);
+                    } else {
+
                         setError(null);
                         setProcessing(false);
                         setSucceeded(true);
 
                         props.emptyCart();
                         props.setStep(props.step + 1);
-                }
-            });
+                    }
+                });
         }
     }
-    
+
     return (
         <div className="App">
 
-            <div style={{width:"fit-content", margin:"0 auto", padding:"1.5em"}}>
+            <div style={{ width: "fit-content", margin: "0 auto", padding: "1.5em" }}>
                 <h1>Checkout - Pay</h1>
             </div>
 
-            <div className="container" style={{margin:"5em auto"}}>
-                <div className="container" style={{margin:"5em auto"}}>
-                    <form onSubmit={handleSubmit} style={{margin:"0 auto", width:"50%"}}>
-                        <div className="mb-3">
-                            <label htmlFor="name" className="form-label">Voornaam + achternaam<span style={{color:"red"}}>*</span></label>
-                            <input type="text" className="form-control" name="name" defaultValue={"student student"} onChange={(event) => setBillingDetails({...billingDetails, [event.target.name]: event.target.value})} required></input>
+            <div className="login">
+                <Form onSubmit={handleSubmit}>
+
+                    <Form.Group className="mb-3" controlId="formBasicName">
+                        <Form.Label>Name and last name</Form.Label>
+                        <Form.Control type="text" placeholder="Enter name and last name" />
+                    </Form.Group>
+
+                    <Form.Group className="mb-3" controlId="formBasicEmail">
+                        <Form.Label>Email address</Form.Label>
+                        <Form.Control type="email" placeholder="Enter email" />
+                        <Form.Text className="text-muted">
+                            We'll never share your email with anyone else.
+                        </Form.Text>
+                    </Form.Group>
+
+                    <div className="mb-3">
+                        <CardElement options={options} onChange={handleChange} />
+                    </div>
+
+                    {processing ? (
+                        <div style={{ display: "flex", justifyContent: "space-evenly", marginTop: "5em" }}>
+                            <Spinner animation="border" />
                         </div>
-                        <div className="mb-3">
-                            <label htmlFor="email" className="form-label">E-mail adres<span style={{color:"red"}}>*</span></label>
-                            <input type="email" className="form-control" name="email" defaultValue={"student@student.ehb.be"} onChange={(event) => setBillingDetails({...billingDetails, [event.target.name]: event.target.value})} required></input>
+                    ) : (
+                        <div style={{ display: "flex", justifyContent: "space-evenly", margin: "5em 0" }}>
+                            <Button variant="danger" onClick={() => props.setStep(props.step - 1)}>Terug</Button>
+                            <Button variant="success" disabled={error || processing || disabled || succeeded}>
+                                <span>Pay</span>
+                            </Button>
                         </div>
-                        <div className="mb-3">
-                            <CardElement options={options} onChange={handleChange} />
-                        </div>
-                        {processing ? (
-                            <div style={{display:"flex", justifyContent:"space-evenly", marginTop:"5em"}}>
-                                <div className="spinner-border" role="status">
-                                    <span className="visually-hidden">Loading...</span>
-                                </div>
-                            </div>
-                        ) : (
-                            <div style={{display:"flex", justifyContent:"space-evenly", margin:"5em 0"}}>
-                                <button className="btn btn-danger" onClick={() => props.setStep(props.step - 1)}>Terug</button>
-                                <button className="btn btn-success" disabled={error || processing || disabled || succeeded}>
-                                    <span>Pay</span>
-                                </button>
-                            </div>
-                        )}
-                        {error && (
-                            <div style={{color:"red"}}>
+                    )}
+                    {error && (
+                        <div>
+                            <Alert variant="danger">
                                 {error}
-                            </div>
-                        )}
-                    </form>
-                </div>
+                            </Alert>
+                        </div>
+                    )}
+
+                </Form>
             </div>
         </div>
     );

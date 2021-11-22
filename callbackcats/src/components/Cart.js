@@ -1,6 +1,6 @@
 import { useHistory } from "react-router";
 
-import { Button } from "react-bootstrap";
+import { Button, Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 const Cart = props => {
@@ -15,21 +15,21 @@ const Cart = props => {
                         <h1>Cart</h1>
                     </div>
 
-                    <div className="container">
-                        <table className="table">
+                    <div className="mx-auto" style={{ width: "50%"}}>
+                <Table class="table">
                             <thead>
                                 <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Name</th>
-                                    <th scope="col">Amount</th>
-                                    <th scope="col">Price</th>
+                                <th>#</th>
+                            <th>Name</th>
+                            <th>Amount</th>
+                            <th>Price</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {props.cart.map(item => {
                                     return(
                                         <tr key={item.product._id}>
-                                            <th scope="row">{props.cart.indexOf(item) + 1}</th>
+                                            <th>{props.cart.indexOf(item) + 1}</th>
                                             <td>{item.product.name}</td>
                                             <td>{item.quantity}</td>
                                             <td>{item.product.price/100}</td>
@@ -39,7 +39,7 @@ const Cart = props => {
                                 })
                                 }
                             </tbody>
-                        </table>
+                        </Table>
 
                         <Link to={"/checkout"} className="btn btn-success">Checkout</Link>
                     </div>

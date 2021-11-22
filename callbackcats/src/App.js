@@ -7,8 +7,6 @@ import { useState } from 'react';
 
 import logo from "./icon.png"
 
-import "bootstrap/dist/css/bootstrap.css";
-import "bootstrap/dist/js/bootstrap.js";
 import { Navbar, Container, Nav } from "react-bootstrap";
 
 import Menu from './components/Menu';
@@ -75,7 +73,6 @@ function App() {
 
   return (
     <div className="App">
-
       {user != null &&
         <Navbar bg="light" expand="lg">
           <Container>
@@ -91,12 +88,17 @@ function App() {
             </Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
-              <Nav className="me-auto">
+              <Nav>
                 <Nav.Link href="/menu">Menu</Nav.Link>
 
                 {user != null && user.type === "normal" &&
                   <div>
                     <Nav.Link href="/createsandwich">Create a sandwich</Nav.Link>
+                  </div>
+                }
+
+                {user != null && user.type === "normal" &&
+                  <div>
                     <Nav.Link href="/cart">Cart</Nav.Link>
                   </div>
                 }

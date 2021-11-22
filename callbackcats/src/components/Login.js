@@ -20,38 +20,33 @@ const Login = props => {
         })
     }
     return(
-        <div className="App" style={{ margin: "15px"}}>
-            
+        <div>
           {props.user === null &&
             <div>
-                <div style={{width:'fit-content', margin:'0 auto', padding:'2.5em'}}>
-                    <h1>Login</h1>
-                </div>
-
-                <div className="d-flex align-items-center login">
-                    <div className="login-container bg-light p-4 rounded border">
-                        <h1 className="display-1 mb-4">Log in</h1>
+                <div className="login">
+                    <div className="login-content">
+                        <h3>Log in</h3>
                         
                         <Form onSubmit={handleSubmit(onSubmit)}>
-                            <Form.Group className="mb-3" controlId="formBasicEmail">
-                                <FloatingLabel controlId="floatingInput" label="Email" className="mb-3">
-                                    <Form.Control type="email" placeholder="Email" {...register("email")} required />
+                            <Form.Group controlId="formBasicEmail">
+                                <FloatingLabel controlId="floatingInput" label="Email">
+                                    <Form.Control className="form-control" type="email" placeholder="Email" {...register("email")} required />
                                 </FloatingLabel>
                             </Form.Group>
 
-                            <Form.Group className="mb-3" controlId="formBasicPassword">
-                                <FloatingLabel controlId="floatingPassword" label="Password" className="mb-1">
-                                    <Form.Control type="password" placeholder="Password" {...register("password")} required />
+                            <Form.Group controlId="formBasicPassword">
+                                <FloatingLabel controlId="floatingPassword" label="Password">
+                                    <Form.Control className="form-control" type="password" placeholder="Password" {...register("password")} required />
                                 </FloatingLabel>
                             </Form.Group>
 
-                            <Form.Group className="mb-3" style={{color:"red"}}>
+                            <Form.Group style={{color:"red"}}>
                                 {error}
                             </Form.Group>
 
-                            <div className="d-grid mt-4 gap-1">
-                                <Button type="submit" variant="primary" className="py-2">
-                                    Login
+                            <div>
+                                <Button className="login-button" type="submit" variant="primary">
+                                    Log in
                                 </Button>
                             </div>
                         </Form>

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router";
+import { Form, Button} from "react-bootstrap";
 // This will require to npm install axios
 // import axios from 'axios';
 
@@ -58,17 +59,17 @@ const EditStock = props => {
                     </Link>
                 </div>
 
-                <form onSubmit={handleSubmit} style={{width:"50%", margin:"0 auto"}}>
-                    <div className="mb-4">
-                        <label htmlFor="name" className="form-label">Name</label>
-                        <input type="text" className="form-control" name="name" id="name" onChange={handleFormChange} required />
-                    </div>
-                    <div className="mb-4">
-                        <label htmlFor="quantity" className="form-label">Quantity</label>
-                        <input type="text" className="form-control" name="quantity" id="quantity" onChange={handleFormChange} required />
-                    </div>
-                    <button type="submit" className="btn btn-primary">Update Record</button>
-                </form>
+                <Form onSubmit={handleSubmit} style={{width:"50%", margin:"0 auto"}}>
+                    <Form.Group className="mb-4">
+                        <Form.Label htmlFor="name" className="form-label">Name</Form.Label>
+                        <Form.Control type="text" className="form-control" name="name" id="name" onChange={handleFormChange} required></Form.Control>
+                    </Form.Group>
+                    <Form.Group className="mb-4">
+                        <Form.Label htmlFor="quantity" className="form-label">Quantity</Form.Label>
+                        <Form.Control type="text" className="form-control" name="quantity" id="quantity" onChange={handleFormChange} required ></Form.Control>
+                    </Form.Group>
+                    <Button type="submit" variant="primary">Update Record</Button>
+                </Form>
             </div>
           }
 
