@@ -1,7 +1,5 @@
-import {
-    MongoClient,
-    ObjectId
-} from "mongodb";
+const MongoClient = require('mongodb').MongoClient;
+const ObjectId = require('mongodb').ObjectId;
 // import {
 //     randomBytes,
 //     scrypt
@@ -11,18 +9,13 @@ import {
 //     toDataURL
 // } from "qrcode";
 
-const DATABASE = "SoftwareSecurity",
-    TABLE_USERS = "users",
-    TABLE_PRODUCTS = "products",
-    TABLE_MENUS = "menus";
-
-const uri = `mongodb+srv://admin:fFnqq86Gi4fnsw3V@cluster0.zn4v2.mongodb.net/${DATABASE}?retryWrites=true&w=majority`;
-const client = new MongoClient(uri, {
+const { MONGO_URI, DATABASE, TABLE_USERS, TABLE_PRODUCTS, TABLE_MENUS } = process.env;
+const client = new MongoClient(MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 });
 
-// export const getData = async (req, res) => {
+// const getData = async (req, res) => {
 //     const uid = req.body.uid;
 //     //const data = req.body.data;
 
@@ -61,7 +54,7 @@ const client = new MongoClient(uri, {
 //     })
 // }
 
-// export const getProducts = async (req, res) => {
+// const getProducts = async (req, res) => {
 //     client.connect(async err => {
 //         if (err) throw err;
 
@@ -71,7 +64,7 @@ const client = new MongoClient(uri, {
 //     })
 // }
 
-export const getMenus = async (req, res) => {
+const getMenus = async (req, res) => {
     client.connect(async err => {
         if (err) throw err;
 
@@ -81,7 +74,7 @@ export const getMenus = async (req, res) => {
     })
 }
 
-export const getProduct = async (req, res) => {
+const getProduct = async (req, res) => {
     const productId = req.body.productId;
 
     client.connect(async err => {
@@ -93,7 +86,7 @@ export const getProduct = async (req, res) => {
     })
 }
 
-// export const loginWith2FA = async (req, res) => {
+// const loginWith2FA = async (req, res) => {
 //     const user = req.body.user;
 
 //     client.connect(async err => {
@@ -174,7 +167,7 @@ export const getProduct = async (req, res) => {
 //     })
 // }
 
-export const login = async (req, res) => {
+const login = async (req, res) => {
     const user = req.body.user;
 
     client.connect(async err => {
@@ -190,7 +183,7 @@ export const login = async (req, res) => {
     })
 }
 
-// export const verifyUserRegister = async (req, res) => {
+// const verifyUserRegister = async (req, res) => {
 //     const uid = req.body.uid;
 //     const token = req.body.token;
 
@@ -232,7 +225,7 @@ export const login = async (req, res) => {
 //     })
 // }
 
-// export const verifyUserLogin = async (req, res) => {
+// const verifyUserLogin = async (req, res) => {
 //     const uid = req.body.uid;
 //     const token = req.body.token;
 
@@ -262,7 +255,7 @@ export const login = async (req, res) => {
 //     })
 // }
 
-// export const getDataUrl = async (req, res) => {
+// const getDataUrl = async (req, res) => {
 //     const uid = req.body.uid;
 
 //     client.connect(async err => {
@@ -289,7 +282,7 @@ export const login = async (req, res) => {
 //     })
 // }
 
-// export const enableTwofa = async (req, res) => {
+// const enableTwofa = async (req, res) => {
 //     const uid = req.body.uid;
 //     const token = req.body.token;
 
@@ -334,7 +327,7 @@ export const login = async (req, res) => {
 //     })
 // }
 
-// export const disableTwofa = async (req, res) => {
+// const disableTwofa = async (req, res) => {
 //     const uid = req.body.uid;
 //     const token = req.body.token;
 
@@ -378,3 +371,16 @@ export const login = async (req, res) => {
 //             })
 //     })
 // }
+
+module.exports = {
+    // getData,
+    getMenus,
+    getProduct,
+    // loginWith2FA,
+    login,
+    // verifyUserRegister,
+    // verifyUserLogin,
+    // getDataUrl,
+    // enableTwofa,
+    // disableTwofa,
+}
