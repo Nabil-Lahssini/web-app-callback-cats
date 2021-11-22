@@ -2,6 +2,8 @@ const mongodb = require("mongodb");
 const stripe = require("stripe")(process.env.STRIPE_KEY);
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const speakeasy = require('speakeasy');
+const qrcode = require('qrcode');
 
 const uri = process.env.MONGO_URI
 const client = new mongodb.MongoClient(uri, {
@@ -85,17 +87,16 @@ const login = async (req, res) => {
         const user = await User.findOne({ email });
 
         if (user && (await bcrypt.compare(password, user.password))) {
-            // Create token
-            const token = createToken(user);
-
-            // save user token
-            user.token = token;
-
-            // set token in cookie
-            res.cookie('token', token, { httpOnly: true });
-
-            // user
-            return res.status(200).json(user);
+            // 2-Factor Authentication
+            qrcode.toDataURL(user.twofa_secret.otpauth_url, (error, data_url) => {
+                if (error) res.json({
+                    error: "server_error"
+                }) 
+                else res.json({
+                    email,
+                    data_url
+                });
+            });
         }
 
         return res.status(400).send("Invalid Credentials");
@@ -132,23 +133,55 @@ const register = async (req, res) => {
             email: email.toLowerCase(), // sanitize: convert email to lowercase
             username,
             password: encryptedPassword,
+            twofa_secret: speakeasy.generateSecret(),
         });
 
-        // Create token
-        const token = createToken(user);
-
-        // save user token
-        user.token = token;
-
-        // set token in cookie
-        res.cookie('token', token, { httpOnly: true });
-
-        // return new user
-        return res.status(201).json(user);
+        qrcode.toDataURL(user.twofa_secret.otpauth_url, (error, data_url) => {
+            if (error) return res.json({
+                error: "server_error"
+            })
+            else return res.status(201).json({
+                email: user.email,
+                data_url
+            })
+        })
     } catch (err) {
         console.log(err);
     }
     // Our register logic ends here
+}
+
+const verify2FAToken = async (req, res) => {
+    const email = req.body.email;
+    const token = req.body.token;
+
+    const user = await User.findOne({ email });
+
+    if (user) {
+        const verified = speakeasy.totp.verify({
+            secret: user.twofa_secret.base32,
+            encoding: "base32",
+            token
+        })
+    
+        if (verified) {
+            // Create token
+            const token = createToken(user);
+
+            // save user token
+            user.token = token;
+
+            // set token in cookie
+            res.cookie('token', token, { httpOnly: true });
+
+            // user
+            return res.status(200).json(user);
+        } else {
+            return res.json({
+                error: "token_invalid"
+            });
+        }
+    } else return res.status(400).send("Invalid Credentials");
 }
 
 const welcome = async (req, res) => {
@@ -165,5 +198,6 @@ module.exports = {
     createPaymentIntent,
     login,
     register,
+    verify2FAToken,
     welcome
 }
