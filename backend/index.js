@@ -3,7 +3,8 @@ import cors from "cors";
 import {
     getProduct,
     getMenus,
-    login
+    login,
+    createPaymentIntent
     // register,
     // changeEmail,
     // changePassword,
@@ -23,6 +24,7 @@ app.use(express.json());
 app.get('/api/v1/getMenus', getMenus);
 app.post('/api/v1/getProduct', getProduct);
 app.post('/api/v1/login', login);
+app.post("/api/v1/createPaymentIntent", createPaymentIntent);
 // app.post('/api/v1/register', register);
 // app.post('/api/v1/changeEmail', changeEmail);
 // app.post('/api/v1/changePassword', changePassword);

@@ -14,7 +14,8 @@
     "express": "^4.17.1",
     "mongodb": "^4.1.2",
     "qrcode": "^1.4.4",
-    "speakeasy": "^2.0.0"
+    "speakeasy": "^2.0.0",
+    "stripe": "^8.191.0"
   },
   "type": "module"
 }

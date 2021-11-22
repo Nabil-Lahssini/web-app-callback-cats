@@ -8,15 +8,19 @@ const http = axios.create({
 });
 
 export const getProduct = productId => {
-  return http.post(`getProduct`, {productId});
+  return http.post("getProduct", {productId});
 }
 
 export const getMenus = _ => {
-  return http.get(`getMenus`);
+  return http.get("getMenus");
 }
 
 export const login = user => {
-  return http.post(`login`, user);
+  return http.post("login", user);
+}
+
+export const createPaymentIntent = (items) => {
+  return http.post(`createPaymentIntent`, {items});
 }
 
 // export const register = user => {

@@ -22,6 +22,9 @@ import Stock from './components/stock/Stock';
 import EditStock from './components/stock/EditStock'
 import CreateStock from './components/stock/CreateStock'
 import Orders from './components/Orders'
+import Checkout from './components/checkout/Checkout';
+import Confirmation from './components/checkout/Confirmation';
+import CheckoutForm from './components/checkout/CheckoutForm';
 
 function App() {
   const [cart, setCart] = useState(JSON.parse(localStorage.getItem('cart')) || []);
@@ -45,32 +48,32 @@ function App() {
   //     });
   // }
 
-  // const addToCart = async (product, quantity) => {
-  //   let c = [...cart, {product, quantity}];
-  //   localStorage.setItem('cart', JSON.stringify(c));
-  //   setCart(c);
-  // }
+  const addToCart = async (product, quantity) => {
+    let c = [...cart, {product, quantity}];
+    localStorage.setItem('cart', JSON.stringify(c));
+    setCart(c);
+  }
 
-  const updateCart = async (id, quantity) => {
-    let c = cart.map(i => {
-      if (i.product._id === id) i.quantity = quantity
-      return i;
+  const updateCart = async (product, quantity) => {
+    let c = cart.map(item => {
+      if (item.product._id === product._id) item.quantity = quantity
+      return item;
     });
     localStorage.setItem('cart', JSON.stringify(c));
     setCart(c);
   }
 
-  const removeFromCart = async id => {
-    let c = cart.filter(item => item.product._id !== id);
+  const removeFromCart = async product => {
+    let c = cart.filter(item => item.product._id !== product._id);
     localStorage.setItem('cart', JSON.stringify(c));
     setCart(c);
   }
 
-  // const emptyCart = async _ => {
-  //   let c = [];
-  //   localStorage.setItem('cart', JSON.stringify(c));
-  //   setCart(c);
-  // }
+  const emptyCart = async _ => {
+    let c = [];
+    localStorage.setItem('cart', JSON.stringify(c));
+    setCart(c);
+  }
 
   return (
     <div className="App">
@@ -135,7 +138,7 @@ function App() {
           exact
           path="/cart"
           render={ props => (
-            <Cart {...props} user={user} cart={cart} removeFromCart={removeFromCart} updateCart={updateCart} />
+            <Cart {...props} user={user} cart={cart} removeFromCart={removeFromCart} />
           )}>
         </Route>
         <Route
@@ -149,7 +152,7 @@ function App() {
           exact
           path="/product/:id"
           render={ props => (
-            <Product {...props} user={user} />
+            <Product {...props} user={user} cart={cart} addToCart={addToCart} updateCart={updateCart} />
           )}>
         </Route>
         <Route
@@ -199,6 +202,13 @@ function App() {
         path="/dashboard/orders"
         render ={ props => (
           <Orders {...props} user={user} />
+        )}>
+        </Route>
+        <Route
+        exact
+        path="/checkout"
+        render ={ props => (
+          <Checkout {...props} user={user} cart={cart} emptyCart={emptyCart} />
         )}>
         </Route>
       </Switch>

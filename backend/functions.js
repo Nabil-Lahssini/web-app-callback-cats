@@ -2,6 +2,9 @@ import {
     MongoClient,
     ObjectId
 } from "mongodb";
+import {
+    Stripe
+} from "stripe";
 // import {
 //     randomBytes,
 //     scrypt
@@ -21,6 +24,8 @@ const client = new MongoClient(uri, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 });
+
+const stripe = new Stripe('sk_test_51JyK2rLfaOxbuUDdvs9PZaYWhIAlyieX7DhZWfsgHh3QEUbJ4Ex8b01zW51nO4nOTg5TwKZxSzj0qQfkCyJX1HyO00CSiXEbX4');
 
 // export const getData = async (req, res) => {
 //     const uid = req.body.uid;
@@ -87,7 +92,9 @@ export const getProduct = async (req, res) => {
     client.connect(async err => {
         if (err) throw err;
 
-        res.json(await client.db(DATABASE).collection(TABLE_PRODUCTS).findOne({_id: new ObjectId(productId)}));
+        res.json(await client.db(DATABASE).collection(TABLE_PRODUCTS).findOne({
+            _id: new ObjectId(productId)
+        }));
 
         client.close();
     })
@@ -189,6 +196,63 @@ export const login = async (req, res) => {
         client.close();
     })
 }
+
+const calculateOrderAmount = items => {
+    let total = 0;
+
+    items.map(item => total += (item.product.price * item.quantity));
+
+    return total;
+}
+
+export const createPaymentIntent = async (req, res) => {
+    const items = req.body.items;
+
+    await stripe.paymentIntents.create({
+            amount: calculateOrderAmount(items),
+            currency: "eur",
+            payment_method_types: ["card"]
+        })
+        .then(paymentIntent => {
+            res.json({
+                clientSecret: paymentIntent.client_secret
+            })
+        });
+}
+
+// export const createCheckoutSession = async (req, res) => {
+//     const cart = req.body.cart;
+//     const line_items = [];
+
+//     cart.forEach(item => {
+//         line_items.push({
+//             price: checkPrice(item.product._id),
+//             quantity: item.quantity,
+//         })
+//     });
+
+//     const session = await stripe.checkout.sessions.create({
+//             line_items: line_items,
+//             mode: 'payment',
+//             success_url: 'https://eatecats.com/success',
+//             cancel_url: 'https://eatecats.com/cancel',
+//         });
+
+//     res.redirect(303, session.url);
+// }
+
+// const checkPrice = id => {
+//     switch (id) {
+//         case "619b71f0440564d4617ea857":
+//             return "price_1JyayWLfaOxbuUDd6hSTsPql";
+//         case "619b75aa440564d4617ea85e":
+//             return "price_1JyayrLfaOxbuUDd7AozgcXk";
+//         case "619b75ea440564d4617ea860":
+//             return "price_1Jyaz5LfaOxbuUDdL0Jda3GN";
+//         case "619b763f440564d4617ea861":
+//             return "price_1JyazFLfaOxbuUDdaCYuwNEv";
+//     }
+// }
 
 // export const verifyUserRegister = async (req, res) => {
 //     const uid = req.body.uid;
