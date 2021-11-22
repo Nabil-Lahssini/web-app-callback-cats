@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Form, Button } from "react-bootstrap";
 import { useHistory } from "react-router";
 // This will require to npm install axios
 // import axios from 'axios';
@@ -44,17 +45,17 @@ const CreateStock = props => {
                     </Link>
                 </div>
 
-                <form onSubmit={handleSubmit} style={{width:"50%", margin:"0 auto"}}>
-                    <div className="mb-4">
-                        <label htmlFor="name" className="form-label">Name</label>
-                        <input type="text" className="form-control" name="name" id="name" onChange={handleFormChange} required />
-                    </div>
-                    <div className="mb-4">
-                        <label htmlFor="quantity" className="form-label">Quantity</label>
-                        <input type="text" className="form-control" name="quantity" id="quantity" onChange={handleFormChange} required />
-                    </div>
-                    <button type="submit" className="btn btn-primary">Create stock</button>
-                </form>
+                <Form onSubmit={handleSubmit} style={{width:"50%", margin:"0 auto"}}>
+                    <Form.Group className="mb-4">
+                        <Form.Label htmlFor="name" className="form-label">Name</Form.Label>
+                        <Form.Control type="text" name="name" id="name" onChange={handleFormChange} required />
+                    </Form.Group>
+                    <Form.Group className="mb-4">
+                        <Form.Label htmlFor="quantity" className="form-label">Quantity</Form.Label>
+                        <Form.Control type="text" name="quantity" id="quantity" onChange={handleFormChange} required></Form.Control>
+                    </Form.Group>
+                    <Button type="submit" variant="primary">Create stock</Button>
+                </Form>
             </div>
           }
 
