@@ -21,6 +21,7 @@ app.get('/api/v1/getProduct/:productId?', auth, functions.getProduct);
 app.post('/api/v1/createPaymentIntent', auth, functions.createPaymentIntent);
 app.post("/api/v1/register", functions.register);
 app.post("/api/v1/login", functions.login);
+app.post("/api/v1/verify", functions.verify2FAToken);
 app.post("/api/v1/welcome", auth, functions.welcome);
 
 module.exports = app;
