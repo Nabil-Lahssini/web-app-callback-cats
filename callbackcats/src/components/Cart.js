@@ -1,5 +1,8 @@
 import { useHistory } from "react-router";
 
+import { Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
+
 const Cart = props => {
     const history = useHistory();
 
@@ -13,7 +16,7 @@ const Cart = props => {
                     </div>
 
                     <div className="container">
-                        <table class="table">
+                        <table className="table">
                             <thead>
                                 <tr>
                                     <th scope="col">#</th>
@@ -25,42 +28,20 @@ const Cart = props => {
                             <tbody>
                                 {props.cart.map(item => {
                                     return(
-                                        <tr key={item.id}>
-                                            <th scope="row">{item.id}</th>
-                                            <td>{item.name}</td>
+                                        <tr key={item.product._id}>
+                                            <th scope="row">{props.cart.indexOf(item) + 1}</th>
+                                            <td>{item.product.name}</td>
                                             <td>{item.quantity}</td>
-                                            <td>{item.price}</td>
-                                            <td><button style={{border: "none", backgroundColor: "white"}} onClick={_ => props.removeFromCart(item.id)}>Remove</button></td>
+                                            <td>{item.product.price/100}</td>
+                                            <td><Button variant="danger" onClick={() => props.removeFromCart(item.product)}>Remove</Button></td>
                                         </tr>
                                     )
                                 })
                                 }
-
-                                <tr>
-                                    <th scope="row">1</th>
-                                    <td>Lasagne</td>
-                                    <td><input type="number" className="form-control" defaultValue="1" /></td>
-                                    <td>&euro; 5.00</td>
-                                    <td><button style={{border: "none", backgroundColor: "white"}}>Remove</button></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">2</th>
-                                    <td>Hamburger</td>
-                                    <td><input type="number" className="form-control" defaultValue="1" /></td>
-                                    <td>&euro; 4.00</td>
-                                    <td><button style={{border: "none", backgroundColor: "white"}}>Remove</button></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">3</th>
-                                    <td>Broodje</td>
-                                    <td><input type="number" className="form-control" defaultValue="1" /></td>
-                                    <td>&euro; 2.50</td>
-                                    <td><button style={{border: "none", backgroundColor: "white"}}>Remove</button></td>
-                                </tr>
                             </tbody>
                         </table>
 
-                        <button className="btn btn-success">Pay</button>
+                        <Link to={"/checkout"} className="btn btn-success">Checkout</Link>
                     </div>
                 </div>
             }

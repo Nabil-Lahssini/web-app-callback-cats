@@ -11,8 +11,8 @@ const Login = props => {
     const { register, handleSubmit } = useForm();
     const onSubmit = data => {
         login(data).then(response => {
-            if (response.data === null) {
-                setError("Wrong combination.")
+            if (response.data === "Invalid Credentials") {
+                setError("Invalid Credentials")
             } else {
                 props.login(response.data)
                 history.push("/")
@@ -33,9 +33,9 @@ const Login = props => {
                         <h1 className="display-1 mb-4">Log in</h1>
                         
                         <Form onSubmit={handleSubmit(onSubmit)}>
-                            <Form.Group className="mb-3" controlId="formBasicText">
-                                <FloatingLabel controlId="floatingInput" label="Username" className="mb-3">
-                                    <Form.Control type="text" placeholder="Username" {...register("username")} required />
+                            <Form.Group className="mb-3" controlId="formBasicEmail">
+                                <FloatingLabel controlId="floatingInput" label="Email" className="mb-3">
+                                    <Form.Control type="email" placeholder="Email" {...register("email")} required />
                                 </FloatingLabel>
                             </Form.Group>
 

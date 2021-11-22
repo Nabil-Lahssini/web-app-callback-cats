@@ -1,22 +1,27 @@
 import axios from "axios";
 
 const http = axios.create({
-  baseURL: "http://localhost:4001/api/v1/",
+  baseURL: "http://localhost:80/api/v1/",
   headers: {
-    "Content-type": "application/json"
-  }
+    "Content-type": "application/json",
+  },
+  withCredentials: true
 });
 
 export const getProduct = productId => {
-  return http.post(`getProduct`, {productId});
+  return http.get(`getProduct/${productId}`);
 }
 
 export const getMenus = _ => {
-  return http.get(`getMenus`);
+  return http.get("getMenus");
 }
 
 export const login = user => {
-  return http.post(`login`, user);
+  return http.post("login", user);
+}
+
+export const createPaymentIntent = (items) => {
+  return http.post(`createPaymentIntent`, {items});
 }
 
 // export const register = user => {
