@@ -26,7 +26,7 @@ const Product = props => {
             {props.user != null && product &&
                 <div>
                     <div style={{width:'fit-content', margin:'0 auto', padding:'2.5em'}}>
-                        <h1>Product</h1>
+                        <h1>{product.name}</h1>
                         <input type="number" className="form-control" onChange={(event) => setQuantity(event.target.value)} defaultValue={quantity} min="1" required />
                         {
                         props.cart.find(item => item.product._id === product._id)

@@ -129,9 +129,9 @@ function App() {
       <Switch>
         <Route
           exact
-          path={["/", "/menu"]}
+          path="/menu"
           render={ props => (
-            <Menu {...props} user={user} />
+            <Menu {...props} user={user} addToCart={addToCart} />
           )}>
         </Route>
         <Route 
@@ -171,7 +171,7 @@ function App() {
         </Route>
         <Route
         exact
-        path="/login"
+        path={["/", "/login"]}
         render ={ props => (
           <Login {...props} user={user} login={login} />
         )}>

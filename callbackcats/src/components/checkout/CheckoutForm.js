@@ -15,7 +15,8 @@ import {
     useElements
 } from "@stripe/react-stripe-js";
 import {
-    createPaymentIntent
+    createPaymentIntent,
+    addOrder
 } from "../../services/service";
 
 const CheckoutForm = props => {
@@ -23,16 +24,10 @@ const CheckoutForm = props => {
     const [error, setError] = useState(null);
     const [processing, setProcessing] = useState("");
     const [disabled, setDisabled] = useState(true);
-    const [billingDetails, setBillingDetails] = useState({
-        name: "",
-        email: "",
-    });
     const stripe = useStripe();
     const elements = useElements();
 
     const handleChange = async event => {
-        // Listen for changes in the CardElement
-        // and display any errors as the customer types their card details
         setDisabled(event.empty);
         setError(event.error ? event.error.message : "");
     };
@@ -81,6 +76,7 @@ const CheckoutForm = props => {
                         setError(`Payment failed ${payload.error.message}`);
                         setProcessing(false);
                     } else {
+                        addOrder(props.user._id, props.cart);
 
                         setError(null);
                         setProcessing(false);
@@ -103,19 +99,6 @@ const CheckoutForm = props => {
             <div className="login">
                 <Form onSubmit={handleSubmit}>
 
-                    <Form.Group className="mb-3" controlId="formBasicName">
-                        <Form.Label>Name and last name</Form.Label>
-                        <Form.Control type="text" placeholder="Enter name and last name" />
-                    </Form.Group>
-
-                    <Form.Group className="mb-3" controlId="formBasicEmail">
-                        <Form.Label>Email address</Form.Label>
-                        <Form.Control type="email" placeholder="Enter email" />
-                        <Form.Text className="text-muted">
-                            We'll never share your email with anyone else.
-                        </Form.Text>
-                    </Form.Group>
-
                     <div className="mb-3">
                         <CardElement options={options} onChange={handleChange} />
                     </div>
@@ -127,7 +110,7 @@ const CheckoutForm = props => {
                     ) : (
                         <div style={{ display: "flex", justifyContent: "space-evenly", margin: "5em 0" }}>
                             <Button variant="danger" onClick={() => props.setStep(props.step - 1)}>Terug</Button>
-                            <Button variant="success" disabled={error || processing || disabled || succeeded}>
+                            <Button type="submit" variant="success" disabled={error || processing || disabled || succeeded}>
                                 <span>Pay</span>
                             </Button>
                         </div>

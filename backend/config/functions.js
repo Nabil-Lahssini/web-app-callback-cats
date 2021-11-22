@@ -36,7 +36,6 @@ const getMenus = async (req, res) => {
 
 const getProduct = async (req, res) => {
     const productId = req.params.productId;
-    console.log(process.env.TABLE_PRODUCTS)
 
     client.connect(async err => {
         if (err) throw err;
@@ -88,15 +87,27 @@ const login = async (req, res) => {
 
         if (user && (await bcrypt.compare(password, user.password))) {
             // 2-Factor Authentication
-            qrcode.toDataURL(user.twofa_secret.otpauth_url, (error, data_url) => {
-                if (error) res.json({
-                    error: "server_error"
-                }) 
-                else res.json({
-                    email,
-                    data_url
-                });
-            });
+            // qrcode.toDataURL(user.twofa_secret.otpauth_url, (error, data_url) => {
+            //     if (error) res.json({
+            //         error: "server_error"
+            //     }) 
+            //     else res.json({
+            //         email,
+            //         data_url
+            //     });
+            // });
+
+            // Create token
+            const token = createToken(user);
+
+            // save user token
+            user.token = token;
+
+            // set token in cookie
+            res.cookie('token', token, { httpOnly: true });
+
+            // user
+            return res.status(200).json(user);
         }
 
         return res.status(400).send("Invalid Credentials");
@@ -133,18 +144,31 @@ const register = async (req, res) => {
             email: email.toLowerCase(), // sanitize: convert email to lowercase
             username,
             password: encryptedPassword,
-            twofa_secret: speakeasy.generateSecret(),
+            twofa_secret: speakeasy.generateSecret()
         });
 
-        qrcode.toDataURL(user.twofa_secret.otpauth_url, (error, data_url) => {
-            if (error) return res.json({
-                error: "server_error"
-            })
-            else return res.status(201).json({
-                email: user.email,
-                data_url
-            })
-        })
+        // 2-Factor Authentication
+        //qrcode.toDataURL(user.twofa_secret.otpauth_url, (error, data_url) => {
+        //     if (error) return res.json({
+        //         error: "server_error"
+        //     })
+        //     else return res.status(201).json({
+        //         email: user.email,
+        //         data_url
+        //     })
+        // })
+
+        // Create token
+        const token = createToken(user);
+
+        // save user token
+        user.token = token;
+
+        // set token in cookie
+        res.cookie('token', token, { httpOnly: true });
+
+        // user
+        return res.status(200).json(user);
     } catch (err) {
         console.log(err);
     }
@@ -192,6 +216,62 @@ const welcome = async (req, res) => {
     res.status(200).send("Welcome 🙌 ");
 }
 
+const getOrders = async (req, res) => {
+    client.connect(async err => {
+        if (err) throw err;
+
+        res.json(await client.db(process.env.DATABASE).collection(process.env.TABLE_ORDERS).find({}).toArray());
+
+        client.close();
+    })
+}
+
+const addOrder = async (req, res) => {
+    const userId = req.body.userId;
+    const order = req.body.order;
+
+    client.connect(async err => {
+        if (err) throw err;
+
+        res.json(await client.db(process.env.DATABASE).collection(process.env.TABLE_ORDERS).insertOne({
+            _id: new mongodb.ObjectId(),
+            userId,
+            order,
+            progress: "preparing"
+        }));
+
+        client.close();
+    })
+}
+
+const removeOrder = async (req, res) => {
+    const order = req.body;
+
+    client.connect(async err => {
+        if (err) throw err;
+
+        res.json(await client.db(process.env.DATABASE).collection(process.env.TABLE_ORDERS).updateOne({
+            _id: new mongodb.ObjectId(order._id)
+        }, {
+            $set: {
+                progress: "done"
+            }
+        }));
+
+        client.close();
+    })
+}
+
+const products = async (req, res) => {
+    client.connect(async err => {
+        if (err) throw err;
+
+        res.json(await client.db(process.env.DATABASE).collection(process.env.TABLE_PRODUCTS).find({}).toArray());
+
+        client.close();
+    })
+}
+
 module.exports = {
     getMenus,
     getProduct,
@@ -199,5 +279,9 @@ module.exports = {
     login,
     register,
     verify2FAToken,
-    welcome
+    welcome,
+    getOrders,
+    addOrder,
+    removeOrder,
+    products
 }

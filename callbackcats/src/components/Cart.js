@@ -16,7 +16,7 @@ const Cart = props => {
                     </div>
 
                     <div className="mx-auto" style={{ width: "50%"}}>
-                <Table class="table">
+                        <Table className="table">
                             <thead>
                                 <tr>
                                 <th>#</th>
@@ -30,7 +30,7 @@ const Cart = props => {
                                     return(
                                         <tr key={item.product._id}>
                                             <th>{props.cart.indexOf(item) + 1}</th>
-                                            <td>{item.product.name}</td>
+                                            <td onClick={() => history.push(`/product/${item.product._id}`)} style={{cursor:"pointer"}}>{item.product.name}</td>
                                             <td>{item.quantity}</td>
                                             <td>{item.product.price/100}</td>
                                             <td><Button variant="danger" onClick={() => props.removeFromCart(item.product)}>Remove</Button></td>

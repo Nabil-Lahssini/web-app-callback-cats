@@ -16,12 +16,16 @@ app.use(express.json());
 const auth = require("./middleware/auth");
 
 // Routes
-app.get('/api/v1/getMenus', auth, functions.getMenus);
-app.get('/api/v1/getProduct/:productId?', auth, functions.getProduct);
+app.get('/api/v1/menus', auth, functions.getMenus);
+app.get('/api/v1/products', auth, functions.products);
+app.get('/api/v1/product/:productId?', auth, functions.getProduct);
 app.post('/api/v1/createPaymentIntent', auth, functions.createPaymentIntent);
 app.post("/api/v1/register", functions.register);
 app.post("/api/v1/login", functions.login);
 app.post("/api/v1/verify", functions.verify2FAToken);
 app.post("/api/v1/welcome", auth, functions.welcome);
+app.get("/api/v1/orders", auth, functions.getOrders);
+app.post("/api/v1/addOrder", auth, functions.addOrder);
+app.post("/api/v1/removeOrder", auth, functions.removeOrder);
 
 module.exports = app;

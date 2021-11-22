@@ -9,11 +9,11 @@ const http = axios.create({
 });
 
 export const getProduct = productId => {
-  return http.get(`getProduct/${productId}`);
+  return http.get(`product/${productId}`);
 }
 
 export const getMenus = _ => {
-  return http.get("getMenus");
+  return http.get("menus");
 }
 
 export const login = user => {
@@ -22,6 +22,22 @@ export const login = user => {
 
 export const createPaymentIntent = (items) => {
   return http.post(`createPaymentIntent`, {items});
+}
+
+export const getOrders = _ => {
+  return http.get("orders");
+}
+
+export const addOrder = (userId, order) => {
+  return http.post("addOrder", {userId, order});
+}
+
+export const removeOrder = order => {
+  return http.post("removeOrder", order);
+}
+
+export const getProducts = _ => {
+  return http.get("products");
 }
 
 // export const register = user => {

@@ -3,30 +3,16 @@ import { useHistory } from "react-router";
 import { Table } from "react-bootstrap";
 
 import { Link } from "react-router-dom";
+import { getProducts } from "../../services/service";
 
 const Stock = props => {
-    const [records, setRecords] = useState([]);
+    const [products, setProducts] = useState([]);
 
     const history = useHistory()
 
-    const handleDeleteRecord = id => {
-        // axios.delete("http://localhost:5000/" + id)
-        //     .then((response) => {
-        //         console.log(response.data);
-        //     });
-
-        setRecords(records.filter((el) => el._id !== id));
-    }
-
-    // useEffect(
-    //     axios.get("http://localhost:5000/record/")
-    //         .then((response) => {
-    //             setRecords(response.data);
-    //         })
-    //         .catch(function (error) {
-    //             console.log(error);
-    //         })
-    // )
+    useEffect(() => {
+      getProducts().then(response => setProducts(response.data));
+    }, [])
 
     return (
         <div className="App">
@@ -40,21 +26,18 @@ const Stock = props => {
               <Table className="table table-striped" style={{ marginTop: 20 }}>
                 <thead>
                   <tr>
+                    <th>#</th>
                     <th>Name</th>
                     <th>Quantity</th>
-                    <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {records.map(record => {
+                  {products.map(product => {
                     return (
-                      <tr>
-                        <td>{record.name}</td>
-                        <td>{record.quantity}</td>
-                        <td>
-                          <Link to={"/edit/" + record._id}>Edit</Link> |
-                          <a href="/" onClick={() => { handleDeleteRecord(record._id)}}>Delete</a>
-                        </td>
+                      <tr key={product._id}>
+                        <td>{products.indexOf(product) + 1}</td>
+                        <td>{product.name}</td>
+                        <td>{product.stock}</td>
                       </tr>
                     )
                   })}

@@ -20,7 +20,7 @@ const Login = props => {
         })
     }
     return(
-        <div>
+        <div className="App">
           {props.user === null &&
             <div>
                 <div className="login">
@@ -56,7 +56,7 @@ const Login = props => {
           }
 
           {props.user != null &&
-            history.push("/")
+            history.push("/menu")
           }
         </div>
     )
