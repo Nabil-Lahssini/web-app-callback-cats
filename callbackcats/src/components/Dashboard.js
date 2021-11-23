@@ -1,6 +1,6 @@
 import React from "react";
 import { Button } from "react-bootstrap";
-import { useHistory } from "react-router";
+import { useHistory } from "react-router-dom";
 
 import { Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
@@ -9,11 +9,11 @@ const Dashboard = props => {
   const history = useHistory()
 
   return (
-    <div className="App" style={{ margin: "15px"}}>
-            
-      {props.user != null && props.user.type === "admin" &&
-        <div>
-          <div style={{width:'fit-content', margin:'0 auto', padding:'2.5em'}}>
+    <div className="App" style={{ margin: "15px" }}>
+
+      {props.user && props.user.type === "admin" &&
+        <div className="App">
+          <div style={{ width: 'fit-content', margin: '0 auto', padding: '2.5em' }}>
             <h1>Dashboard</h1>
             <Button variant="danger" onClick={props.logout}>Logout</Button>
           </div>
@@ -49,8 +49,8 @@ const Dashboard = props => {
         </div>
       }
 
-      {props.user === null &&
-        history.push("/")
+      {
+        !props.user && history.push("/")
       }
 
     </div>

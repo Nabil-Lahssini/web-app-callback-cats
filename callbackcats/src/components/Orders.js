@@ -1,89 +1,67 @@
 import { Button, Table } from "react-bootstrap"
 import { Link } from "react-router-dom";
-import { useHistory } from "react-router";
+import { useHistory } from "react-router-dom";
+import { useEffect, useState } from "react";
+
+import { getOrders, removeOrder } from "../services/service";
 
 const Orders = props => {
-    const history = useHistory()
+  const [orders, setOrders] = useState([]);
+  const history = useHistory();
 
-    return (
-      <div className="App" style={{ margin: "15px"}}>
-          
-        {props.user != null && props.user.type === "admin" &&
-          <div>
-            <div style={{width:'fit-content', margin:'0 auto', padding:'2.5em'}}>
-              <h1>Orders Management</h1>
-              <Link to="/dashboard">
-                <Button variant="danger">Go Back</Button>
-              </Link>
-            </div>
+  useEffect(() => {
+    getOrders().then(response => setOrders(response.data));
+  }, [])
 
-            <h2>Ongoing orders</h2>
-            <Table striped bordered hover>
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Order</th>
-                  <th>Ordered by</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>1</td>
-                  <td>Tonijn (wit brood)</td>
-                  <td>Souheib Touri</td>
-                  <td>
-                    <Button variant="success">Process</Button>
-                    { ' ' }
-                    <Button variant="danger">Cancel</Button>
-                  </td>
-                </tr>
-              </tbody>
-            </Table>
-  
-            <h2>Processed orders</h2>
-            <Table variant="success" striped bordered hover>
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Order</th>
-                  <th>Ordered by</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>1</td>
-                  <td>Tonijn (wit brood)</td>
-                  <td>Souheib Touri</td>
-                </tr>
-              </tbody>
-            </Table>
-  
-            <h2>Cancelled orders</h2>
-            <Table variant="danger" striped bordered hover>
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Order</th>
-                  <th>Ordered by</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>1</td>
-                  <td>Tonijn (wit brood)</td>
-                  <td>Souheib Touri</td>
-                </tr>
-              </tbody>
-            </Table>
+  return (
+    <div className="App" style={{ margin: "15px" }}>
+
+      {props.user && props.user.type === "admin" &&
+        <div className="App">
+          <div style={{ width: 'fit-content', margin: '0 auto', padding: '2.5em' }}>
+            <h1>Orders Management</h1>
+            <Link to="/dashboard">
+              <Button variant="danger">Go Back</Button>
+            </Link>
           </div>
-        }
 
-        {props.user === null &&
-          history.push("/")
-        }
-      </div>
-    );
+          <h2>Ongoing orders</h2>
+          <Table striped bordered hover>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Order</th>
+                <th>Ordered by</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {orders.map(order => {
+                return (
+                  <tr key={order._id}>
+                    <td>{orders.indexOf(order) + 1}</td>
+                    <td>{order.order.map(o => {
+                      return (
+                        o.product.name
+                      )
+                    })}</td>
+                    <td>{order.userId}</td>
+                    <td>
+                      <Button variant="success" onClick={() => removeOrder(order)}>Process</Button>
+                    </td>
+                  </tr>
+                )
+              })}
+            </tbody>
+          </Table>
+        </div>
+      }
+
+      {
+        !props.user && history.push("/")
+      }
+    </div>
+  );
 }
 
 export default Orders;

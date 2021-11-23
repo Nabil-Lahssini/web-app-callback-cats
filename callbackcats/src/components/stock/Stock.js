@@ -1,74 +1,61 @@
 import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router";
-// import axios from 'axios';
+import { Link, useHistory } from "react-router-dom";
+import { Table, Button } from "react-bootstrap";
 
-import { Link } from "react-router-dom";
+import { getProducts } from "../../services/service";
 
 const Stock = props => {
-    const [records, setRecords] = useState([]);
+  const [products, setProducts] = useState([]);
 
-    const history = useHistory()
+  const history = useHistory()
 
-    const handleDeleteRecord = id => {
-        // axios.delete("http://localhost:5000/" + id)
-        //     .then((response) => {
-        //         console.log(response.data);
-        //     });
+  useEffect(() => {
+    getProducts().then(response => setProducts(response.data));
+  }, [])
 
-        setRecords(records.filter((el) => el._id !== id));
-    }
+  return (
+    <div className="App">
 
-    // useEffect(
-    //     axios.get("http://localhost:5000/record/")
-    //         .then((response) => {
-    //             setRecords(response.data);
-    //         })
-    //         .catch(function (error) {
-    //             console.log(error);
-    //         })
-    // )
-
-    return (
+      {props.user && props.user.type === "admin" &&
         <div className="App">
-            
-          {props.user != null && props.user.type === "admin" &&
-            <div>
-              <div style={{width:'fit-content', margin:'0 auto', padding:'2.5em'}}>
-                <h1>Stock</h1>
-              </div>
+          <div style={{ width: 'fit-content', margin: '0 auto', padding: '2.5em' }}>
+            <h1>Stock</h1>
+          </div>
 
-              <table className="table table-striped" style={{ marginTop: 20 }}>
-                <thead>
-                  <tr>
-                    <th>Name</th>
-                    <th>Quantity</th>
-                    <th>Action</th>
+          <Table className="table-striped" style={{ marginTop: '2em' }}>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Stock</th>
+                <th>Price</th>
+              </tr>
+            </thead>
+            <tbody>
+              {products.map(product => {
+                return (
+                  <tr key={product._id}>
+                    <td>{products.indexOf(product) + 1}</td>
+                    <td>{product.name}</td>
+                    <td>{product.stock}</td>
+                    <td>&euro;{product.price / 100}</td>
+                    <td><Link to={`/dashboard/stock/edit/${product._id}`}>Edit</Link></td>
                   </tr>
-                </thead>
-                <tbody>
-                  {records.map(record => {
-                    return (
-                      <tr>
-                        <td>{record.name}</td>
-                        <td>{record.quantity}</td>
-                        <td>
-                          <Link to={"/edit/" + record._id}>Edit</Link> |
-                          <a href="/" onClick={() => { handleDeleteRecord(record._id)}}>Delete</a>
-                        </td>
-                      </tr>
-                    )
-                  })}
-                </tbody>
-              </table>
-            </div>
-          }
+                )
+              })}
+            </tbody>
+          </Table>
 
-          {props.user === null &&
-            history.push("/")
-          }
-
+          <Button variant="primary" href="/dashboard/stock/create">Create</Button>
         </div>
-      );
+      }
+
+      {
+        !props.user && history.push("/")
+      }
+
+    </div>
+  );
 }
 
 export default Stock;

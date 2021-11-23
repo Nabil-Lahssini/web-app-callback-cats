@@ -1,68 +1,72 @@
 import { Button, FloatingLabel, Form } from "react-bootstrap"
-import { useHistory } from "react-router";
-import { useForm } from "react-hook-form";
+import { useHistory } from "react-router-dom";
 import { login } from "../services/service";
 import { useState } from "react";
 
 const Login = props => {
+    const [form, setForm] = useState({
+        email: null,
+        password: null
+    });
     const [error, setError] = useState(null);
     const history = useHistory();
 
-    const { register, handleSubmit } = useForm();
-    const onSubmit = data => {
-        login(data).then(response => {
-            if (response.data === null) {
-                setError("Wrong combination.")
+    const handleChange = event => {
+        const { name, value } = event.target;
+        setForm({ ...form, [name]: value });
+    }
+
+    const handleSubmit = event => {
+        event.preventDefault();
+
+        login(form).then(response => {
+            if (response.data === "Invalid Credentials") {
+                setError("Invalid Credentials")
             } else {
                 props.login(response.data)
-                history.push("/")
+                history.push("/menu")
             }
         })
     }
-    return(
-        <div className="App" style={{ margin: "15px"}}>
-            
-          {props.user === null &&
-            <div>
-                <div style={{width:'fit-content', margin:'0 auto', padding:'2.5em'}}>
-                    <h1>Login</h1>
-                </div>
 
-                <div className="d-flex align-items-center login">
-                    <div className="login-container bg-light p-4 rounded border">
-                        <h1 className="display-1 mb-4">Log in</h1>
-                        
-                        <Form onSubmit={handleSubmit(onSubmit)}>
-                            <Form.Group className="mb-3" controlId="formBasicText">
-                                <FloatingLabel controlId="floatingInput" label="Username" className="mb-3">
-                                    <Form.Control type="text" placeholder="Username" {...register("username")} required />
-                                </FloatingLabel>
-                            </Form.Group>
+    return (
+        <div className="App">
 
-                            <Form.Group className="mb-3" controlId="formBasicPassword">
-                                <FloatingLabel controlId="floatingPassword" label="Password" className="mb-1">
-                                    <Form.Control type="password" placeholder="Password" {...register("password")} required />
-                                </FloatingLabel>
-                            </Form.Group>
+            {!props.user &&
+                <div className="App">
+                    <div className="login">
+                        <div className="login-content">
+                            <h3>Log in</h3>
 
-                            <Form.Group className="mb-3" style={{color:"red"}}>
-                                {error}
-                            </Form.Group>
+                            <Form onSubmit={handleSubmit}>
+                                <Form.Group controlId="formBasicEmail">
+                                    <FloatingLabel controlId="floatingInput" label="Email">
+                                        <Form.Control className="form-control" type="email" name="email" placeholder="Email" onChange={handleChange} required />
+                                    </FloatingLabel>
+                                </Form.Group>
 
-                            <div className="d-grid mt-4 gap-1">
-                                <Button type="submit" variant="primary" className="py-2">
-                                    Login
+                                <Form.Group controlId="formBasicPassword">
+                                    <FloatingLabel controlId="floatingPassword" label="Password">
+                                        <Form.Control className="form-control" type="password" name="password" placeholder="Password" onChange={handleChange} required />
+                                    </FloatingLabel>
+                                </Form.Group>
+
+                                <Form.Group style={{ color: "red" }}>
+                                    {error}
+                                </Form.Group>
+
+                                <Button className="login-button" type="submit" variant="primary">
+                                    Log in
                                 </Button>
-                            </div>
-                        </Form>
+                            </Form>
+                        </div>
                     </div>
                 </div>
-            </div>
-          }
+            }
 
-          {props.user != null &&
-            history.push("/")
-          }
+            {
+                props.user && history.push("/menu")
+            }
         </div>
     )
 }

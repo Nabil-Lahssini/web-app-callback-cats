@@ -1,4 +1,3 @@
-/* van joris */
 *, html {
 	margin: 0;
 	padding: 0;
@@ -8,19 +7,44 @@ body {
 	background-color: #eeecec !important;
 }
 
-/* Login */
 .login {
-	width: 100vw;
-	height: 100vh;
+	margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
 }
 
-.login-container {
-	background-color: #FFFFFF;
-	width: 30rem;
-	color: #000000;
-	margin: 0 auto;
+.login h3 {
+  text-align: center;
+  margin: 0;
+  line-height: 1;
+  padding-bottom: 20px;
 }
-/* van joris ^^^ */
+
+.form-control {
+  box-shadow: 3px 3px 3px rgba(34, 35, 58, 0.2);
+  margin-bottom: 10px;
+}
+
+.login-button {
+  width: 340px;
+  margin: auto;
+  box-shadow: 3px 3px 3px rgba(34, 35, 58, 0.2);
+}
+
+.login-content {
+	width: 450px;
+  margin: auto;
+  background: #ffffff;
+  box-shadow: 0px 14px 80px rgba(34, 35, 58, 0.2);
+  padding: 40px 55px 45px 55px;
+  border-radius: 15px;
+  transition: all .3s;
+}
+
+
 
 .centered {
   display: flex;
