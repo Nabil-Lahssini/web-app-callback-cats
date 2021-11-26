@@ -24,7 +24,6 @@ import Checkout from './components/checkout/Checkout';
 import NotFound from './components/NotFound';
 
 function App() {
-  console.log(`${process.env.API_URL}:${process.env.API_PORT}`);
   const [cart, setCart] = useState(JSON.parse(localStorage.getItem('cart')) || []);
   const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')) || null);
 

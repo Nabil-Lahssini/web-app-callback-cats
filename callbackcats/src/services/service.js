@@ -1,7 +1,7 @@
 import axios from "axios";
 
-const http = axios.create({
-  baseURL: `${process.env.API_URL}:${process.env.API_PORT}`,
+let http = axios.create({
+  baseURL: process.env.NODE_ENV === "development" ? "http://localhost:3001/api/v1/" : `${process.env.REACT_APP_API_URL}:${process.env.REACT_APP_API_PORT}`,
   headers: {
     "Content-type": "application/json",
   },
@@ -36,7 +36,7 @@ export const login = user => {
 }
 
 export const createPaymentIntent = (items) => {
-  return http.post(`createPaymentIntent`, {items});
+  return http.post(`createPaymentIntent`, { items });
 }
 
 // ORDERS
@@ -45,7 +45,7 @@ export const getOrders = _ => {
 }
 
 export const addOrder = (userId, order) => {
-  return http.post("addOrder", {userId, order});
+  return http.post("addOrder", { userId, order });
 }
 
 export const removeOrder = order => {
