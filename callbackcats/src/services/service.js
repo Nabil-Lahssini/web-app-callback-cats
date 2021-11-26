@@ -1,65 +1,53 @@
 import axios from "axios";
 
-const http = axios.create({
-  baseURL: "https://api.eateecats.be/api/v1/",
+let http = axios.create({
+  baseURL: process.env.NODE_ENV === "development" ? "http://localhost:3001/api/v1/" : `${process.env.REACT_APP_API_URL}:${process.env.REACT_APP_API_PORT}`,
   headers: {
     "Content-type": "application/json",
   },
   withCredentials: true
 });
 
-export const getProduct = productId => {
-  return http.get(`product/${productId}`);
-}
-
+// MENUS
 export const getMenus = _ => {
   return http.get("menus");
 }
 
+// PRODUCTS
+export const getProducts = _ => {
+  return http.get("products");
+}
+
+export const getProduct = productId => {
+  return http.get(`products/${productId}`);
+}
+
+export const updateStock = product => {
+  return http.post("products/edit", product);
+}
+
+export const addProduct = product => {
+  return http.post("products/add", product);
+}
+
+// USER
 export const login = user => {
   return http.post("login", user);
 }
 
 export const createPaymentIntent = (items) => {
-  return http.post(`createPaymentIntent`, {items});
+  return http.post(`createPaymentIntent`, { items });
 }
 
+// ORDERS
 export const getOrders = _ => {
   return http.get("orders");
 }
 
 export const addOrder = (userId, order) => {
-  return http.post("addOrder", {userId, order});
+  return http.post("addOrder", { userId, order });
 }
 
 export const removeOrder = order => {
   return http.post("removeOrder", order);
 }
-
-export const getProducts = _ => {
-  return http.get("products");
-}
-
-// export const register = user => {
-//     return http.post(`register`, user);
-// }
-
-// export const verifyUserLogin = token => {
-//     return http.post(`verifyUserLogin`, token);
-// }
-
-// export const verifyUserRegister = token => {
-//     return http.post(`verifyUserRegister`, token);
-// }
-
-// export const getDataUrl = userId => {
-//     return http.post(`getDataUrl`, {userId});
-// }
-
-// export const enableTwofa = token => {
-//     return http.post(`enableTwofa`, token);
-// }
-
-// export const disableTwofa = token => {
-//     return http.post(`disableTwofa`, token);
-// }

@@ -18,6 +18,7 @@ import {
     createPaymentIntent,
     addOrder
 } from "../../services/service";
+import { useHistory } from "react-router-dom";
 
 const CheckoutForm = props => {
     const [succeeded, setSucceeded] = useState(false);
@@ -26,6 +27,8 @@ const CheckoutForm = props => {
     const [disabled, setDisabled] = useState(true);
     const stripe = useStripe();
     const elements = useElements();
+
+    const history = useHistory();
 
     const handleChange = async event => {
         setDisabled(event.empty);
@@ -92,39 +95,48 @@ const CheckoutForm = props => {
     return (
         <div className="App">
 
-            <div style={{ width: "fit-content", margin: "0 auto", padding: "1.5em" }}>
-                <h1>Checkout - Pay</h1>
-            </div>
-
-            <div className="login">
-                <Form onSubmit={handleSubmit}>
-
-                    <div className="mb-3">
-                        <CardElement options={options} onChange={handleChange} />
+            {props.user &&
+                <div className="App">
+                    <div style={{ width: "fit-content", margin: "0 auto", padding: "1.5em" }}>
+                        <h1>Checkout - Pay</h1>
                     </div>
 
-                    {processing ? (
-                        <div style={{ display: "flex", justifyContent: "space-evenly", marginTop: "5em" }}>
-                            <Spinner animation="border" />
-                        </div>
-                    ) : (
-                        <div style={{ display: "flex", justifyContent: "space-evenly", margin: "5em 0" }}>
-                            <Button variant="danger" onClick={() => props.setStep(props.step - 1)}>Terug</Button>
-                            <Button type="submit" variant="success" disabled={error || processing || disabled || succeeded}>
-                                <span>Pay</span>
-                            </Button>
-                        </div>
-                    )}
-                    {error && (
-                        <div>
-                            <Alert variant="danger">
-                                {error}
-                            </Alert>
-                        </div>
-                    )}
+                    <div className="login">
+                        <Form onSubmit={handleSubmit}>
 
-                </Form>
-            </div>
+                            <div className="mb-3">
+                                <CardElement options={options} onChange={handleChange} />
+                            </div>
+
+                            {processing ? (
+                                <div style={{ display: "flex", justifyContent: "space-evenly", marginTop: "5em" }}>
+                                    <Spinner animation="border" />
+                                </div>
+                            ) : (
+                                <div style={{ display: "flex", justifyContent: "space-evenly", margin: "5em 0" }}>
+                                    <Button variant="danger" onClick={() => props.setStep(props.step - 1)}>Terug</Button>
+                                    <Button type="submit" variant="success" disabled={error || processing || disabled || succeeded}>
+                                        <span>Pay</span>
+                                    </Button>
+                                </div>
+                            )}
+                            {error && (
+                                <div>
+                                    <Alert variant="danger">
+                                        {error}
+                                    </Alert>
+                                </div>
+                            )}
+
+                        </Form>
+                    </div>
+                </div>
+            }
+
+            {
+                !props.user && history.push("/")
+            }
+
         </div>
     );
 }

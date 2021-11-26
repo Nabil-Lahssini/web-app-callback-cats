@@ -1,6 +1,6 @@
 import { Button, Table } from "react-bootstrap"
 import { Link } from "react-router-dom";
-import { useHistory } from "react-router";
+import { useHistory } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 import { getOrders, removeOrder } from "../services/service";
@@ -14,11 +14,11 @@ const Orders = props => {
   }, [])
 
   return (
-    <div className="App" style={{ margin: "15px"}}>
-        
-      {props.user != null && props.user.type === "admin" &&
-        <div>
-          <div style={{width:'fit-content', margin:'0 auto', padding:'2.5em'}}>
+    <div className="App" style={{ margin: "15px" }}>
+
+      {props.user && props.user.type === "admin" &&
+        <div className="App">
+          <div style={{ width: 'fit-content', margin: '0 auto', padding: '2.5em' }}>
             <h1>Orders Management</h1>
             <Link to="/dashboard">
               <Button variant="danger">Go Back</Button>
@@ -37,11 +37,11 @@ const Orders = props => {
             </thead>
             <tbody>
               {orders.map(order => {
-                return(
+                return (
                   <tr key={order._id}>
                     <td>{orders.indexOf(order) + 1}</td>
                     <td>{order.order.map(o => {
-                      return(
+                      return (
                         o.product.name
                       )
                     })}</td>
@@ -57,8 +57,8 @@ const Orders = props => {
         </div>
       }
 
-      {props.user === null &&
-        history.push("/")
+      {
+        !props.user && history.push("/")
       }
     </div>
   );

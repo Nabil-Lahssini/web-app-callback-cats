@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 import { Button, Form, Modal } from "react-bootstrap";
-import { useHistory } from "react-router";
+import { useHistory } from "react-router-dom";
 
 const CreateSandwich = props => {
     let main = ['Salami', 'Ham', 'Salmon', 'Tuna', 'None'];
@@ -22,8 +22,9 @@ const CreateSandwich = props => {
 
     return (
         <div className="App">
-            {props.user != null && props.user.type === "normal" &&
-                <div style={{ margin: "15px" }}>
+
+            {props.user && props.user.type === "normal" &&
+                <div className="App" style={{ margin: "15px" }}>
                     <Button variant="primary" onClick={handleShow} style={{ padding: "25px" }}>
                         Start making your own sandwich
                     </Button>
@@ -105,10 +106,10 @@ const CreateSandwich = props => {
                 </div>
             }
 
-            {props.user === null &&
-                history.push("/")
+            {
+                !props.user && history.push("/")
             }
-            
+
         </div>
     )
 }
