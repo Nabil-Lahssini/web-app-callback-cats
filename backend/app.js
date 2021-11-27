@@ -3,12 +3,13 @@ require('./config/database').connect();
 const express = require('express');
 const functions = require('./config/functions')
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
 
 const app = express();
 
 app.use(cors({
-    credentials: true,
     origin: process.env.NODE_ENV.trim() == "development" ? "http://localhost:3000" : process.env.WEBSITE_URL,
+    credentials: true,
     optionSuccessStatus: 200
 }));
 app.use(express.json());
@@ -16,6 +17,7 @@ app.use((req, res, next) => {
     res.setHeader('Strict-Transport-Security', 'max-age=63072000; includeSubDomains; preload'); // 2 years
     next();
 });
+app.use(cookieParser());
 
 const auth = require('./middleware/auth');
 

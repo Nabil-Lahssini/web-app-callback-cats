@@ -1,11 +1,11 @@
 import axios from 'axios';
-// import Cookies from 'js-cookie';
-axios.defaults.withCredentials = true
+import Cookies from 'js-cookie';
 
 let http = axios.create({
   baseURL: process.env.NODE_ENV === "development" ? `http://localhost/api/v1/` : `${process.env.REACT_APP_API_URL}/api/v1/`,
   headers: {
     "Content-type": "application/json",
+    "x-access-token": Cookies.get('token'),
   },
   withCredentials: true
 });
