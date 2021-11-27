@@ -1,4 +1,6 @@
-import axios from "axios";
+import axios from 'axios';
+// import Cookies from 'js-cookie';
+axios.defaults.withCredentials = true
 
 let http = axios.create({
   baseURL: process.env.NODE_ENV === "development" ? `http://localhost/api/v1/` : `${process.env.REACT_APP_API_URL}/api/v1/`,
@@ -10,7 +12,7 @@ let http = axios.create({
 
 // MENUS
 export const getMenus = _ => {
-  return http.get("menus");
+  return http.get("menus", { withCredentials: true });
 }
 
 // PRODUCTS
