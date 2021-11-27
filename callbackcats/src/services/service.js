@@ -1,7 +1,7 @@
 import axios from "axios";
 
 let http = axios.create({
-  baseURL: process.env.NODE_ENV === "development" ? `http://localhost:${process.env.REACT_APP_API_PORT}/api/v1/` : `${process.env.REACT_APP_API_URL}:${process.env.REACT_APP_API_PORT}/api/v1/`,
+  baseURL: process.env.NODE_ENV === "development" ? `http://localhost/api/v1/` : `${process.env.REACT_APP_API_URL}/api/v1/`,
   headers: {
     "Content-type": "application/json",
   },
