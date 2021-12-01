@@ -20,6 +20,22 @@ export const getProducts = _ => {
   return http.get("products");
 }
 
+export const getToppings = _ => {
+  return http.get("toppings");
+}
+
+export const getBreads = _ => {
+  return http.get("breads");
+}
+
+export const getVegetables = _ => {
+  return http.get("vegetables");
+}
+
+export const getSauces = _ => {
+  return http.get("sauces");
+}
+
 export const getProduct = productId => {
   return http.get(`products/${productId}`);
 }

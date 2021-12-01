@@ -1,8 +1,4 @@
-import { useHistory } from "react-router-dom";
-
 const NotFound = props => {
-  const history = useHistory()
-
   return (
     <div className="App">
       <div style={{ margin: '0 auto', padding: '1.5em' }}>

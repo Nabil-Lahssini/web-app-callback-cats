@@ -1,5 +1,5 @@
 import { useHistory } from "react-router-dom";
-import { Button, Tab, Tabs, Accordion } from "react-bootstrap";
+import { Tab, Tabs, Accordion } from "react-bootstrap";
 
 const Profile = props => {
     const history = useHistory();
@@ -11,7 +11,6 @@ const Profile = props => {
                 <div className="App">
                     <div style={{ margin: '0 auto', padding: '2.5em' }}>
                         <h1 style={{ float: 'left' }}>Profile</h1>
-                        <Button style={{ float: 'right' }} variant="danger" onClick={props.logout}>Logout</Button>
                     </div>
 
                     <br></br>

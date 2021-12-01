@@ -29,6 +29,11 @@ app.get('/api/v1/products/:productId', auth, functions.getProduct);
 app.post('/api/v1/products/edit', auth, functions.updateProduct);
 app.post('/api/v1/products/add', auth, functions.addProduct);
 
+app.get('/api/v1/toppings', auth, functions.getToppings);
+app.get('/api/v1/breads', auth, functions.getBreads);
+app.get('/api/v1/vegetables', auth, functions.getVegetables);
+app.get('/api/v1/sauces', auth, functions.getSauces);
+
 app.post('/api/v1/createPaymentIntent', auth, functions.createPaymentIntent);
 
 app.get('/api/v1/orders', auth, functions.getOrders);
