@@ -208,7 +208,7 @@ function App() {
           )}>
         </Route>
         <Route
-          path="*"
+
           render={_ => (
             <NotFound />
           )}>
