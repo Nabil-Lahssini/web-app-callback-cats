@@ -9,10 +9,10 @@ const Profile = props => {
 
             {props.user && props.user.type === "normal" &&
                 <div className="App">
-                    <div style={{ margin: '0 auto', padding: '2.5em' }}>
+                    {/*<div style={{ margin: '0 auto', padding: '2.5em' }}>
                         <h1 style={{ float: 'left' }}>Profile</h1>
                         <Button style={{ float: 'right' }} variant="danger" onClick={props.logout}>Logout</Button>
-                    </div>
+                    </div>*/}
 
                     <br></br>
 
