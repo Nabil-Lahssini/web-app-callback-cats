@@ -82,6 +82,30 @@ const addProduct = async (req, res) => {
     });
 }
 
+const getToppings = async (req, res) => {
+    connection.then(async _ => {
+        res.json(await client.db(process.env.DATABASE).collection(process.env.TABLE_TOPPINGS).find({}).toArray());
+    });
+}
+
+const getBreads = async (req, res) => {
+    connection.then(async _ => {
+        res.json(await client.db(process.env.DATABASE).collection(process.env.TABLE_BREAD).find({}).toArray());
+    });
+}
+
+const getVegetables = async (req, res) => {
+    connection.then(async _ => {
+        res.json(await client.db(process.env.DATABASE).collection(process.env.TABLE_VEGETABLES).find({}).toArray());
+    });
+}
+
+const getSauces = async (req, res) => {
+    connection.then(async _ => {
+        res.json(await client.db(process.env.DATABASE).collection(process.env.TABLE_SAUCES).find({}).toArray());
+    });
+}
+
 // PAYMENT
 const createPaymentIntent = async (req, res) => {
     const items = req.body.items;
@@ -308,6 +332,11 @@ module.exports = {
     getProduct,
     updateProduct,
     addProduct,
+
+    getToppings,
+    getBreads,
+    getVegetables,
+    getSauces,
 
     createPaymentIntent,
 

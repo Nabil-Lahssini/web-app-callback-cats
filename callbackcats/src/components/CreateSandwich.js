@@ -1,58 +1,24 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
-import { toppings } from "./utils/toppings";
-
-
+import { getToppings, getBreads, getVegetables, getSauces } from "../services/service";
+import Select from 'react-select';
+import makeAnimated from 'react-select/animated';
 
 const CreateSandwich = props => {
+    const animatedComponents = makeAnimated();
 
-    const [checkedState, setCheckedState] = useState(
-        new Array(toppings.length).fill(false)
-    );
+    const [product, setProduct] = useState({
+        name: "Sandwich",
+        ingredients: [],
+        allergies: [],
+        price: 0
+    });
 
-    
-    
-    const [total, setTotal] = useState(0);
-    
-    
-    const handleOnChange = (position) => {
-        const ingredients=[];
-        const updatedCheckedState = checkedState.map((item, index) =>
-            index === position ? !item : item
-        );
-
-        setCheckedState(updatedCheckedState);
-
-        const totalPrice = updatedCheckedState.reduce(
-            (sum, currentState, index) => {
-            if (currentState === true) {
-                return sum + toppings[index].price;
-            }
-            return sum;
-            },
-            0
-        );
-        setTotal(totalPrice);
-
-        const totalIngredients = updatedCheckedState.reduce(
-            (ingredients_, currentState, index) => {
-            if (currentState === true) {
-                ingredients.push(toppings[index].name)
-                return ingredients_ + toppings[index].name+" ";
-            }
-            return ingredients_;
-            },
-            ""
-        );
-        
-        
-        console.log(ingredients);
-        setProduct({...product,[ingredients]:ingredients})
-        console.log(total);
-    };
-    
-    const getFormattedPrice = (price) => `$${price.toFixed(2)}`;
+    const [toppings, setToppings] = useState([])
+    const [breads, setBreads] = useState([])
+    const [vegetables, setVegetables] = useState([])
+    const [sauces, setSauces] = useState([])
 
     const history = useHistory()
 
@@ -60,14 +26,62 @@ const CreateSandwich = props => {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-    const [product, setProduct] = useState({
-        _id: 1,
-        name: "Sandwich",
-        stock: null,
-        ingredients: [],
-        allergies: [],
-        price: total
-    });
+    useEffect(() => {
+        getToppings().then(response => {
+            const array = []
+            response.data.forEach(topping => {
+                array.push({
+                    label: topping.name,
+                    value: topping.name
+                })
+                setToppings(array)
+            })
+        });
+        getBreads().then(response => {
+            console.log()
+            const array = []
+            response.data.forEach(bread => {
+                array.push({
+                    label: bread.name,
+                    value: bread.name
+                })
+                setBreads(array)
+            })
+        });
+        getVegetables().then(response => {
+            const array = []
+            response.data.forEach(vegetable => {
+                array.push({
+                    label: vegetable.name,
+                    value: vegetable.name
+                })
+                setVegetables(array)
+            })
+        });
+        getSauces().then(response => {
+            const array = []
+            response.data.forEach(sauce => {
+                array.push({
+                    label: sauce.name,
+                    value: sauce.name
+                })
+                setSauces(array)
+            })
+        });
+    }, []);
+
+    const handleChangeMultiSelect = event => {
+        const p = product
+        event.forEach(e => {
+            p.ingredients.push(e.value)
+        })
+        setProduct(p)
+    }
+
+    const handleClick = event => {
+        event.preventDefault()
+        console.log(product)
+    }
 
     return (
         <div className="App">
@@ -84,41 +98,41 @@ const CreateSandwich = props => {
                         </Modal.Header>
                         <Modal.Body>
                             <Form id="form-sandwich">
-                                <ul className="toppings-list">
-                                    {toppings.map(({ name, price }, index) => {
-                                    return (
-                                        <li key={index}>
-                                        <div className="toppings-list-item">
-                                            <div className="left-section">
-                                            <input
-                                                type="checkbox"
-                                                id={`custom-checkbox-${index}`}
-                                                name={name}
-                                                value={name}
-                                                checked={checkedState[index]}
-                                                onChange={() => handleOnChange(index)}
-                                            />
-                                            <label htmlFor={`custom-checkbox-${index}`}>{name}</label>
-                                            </div>
-                                            <div className="right-section">{getFormattedPrice(price)}</div>
-                                        </div>
-                                        </li>
-                                    );
-                                    })}
-                                    <li>
-                                    <div className="toppings-list-item">
-                                        <div className="left-section">Total:</div>
-                                        <div className="right-section">{getFormattedPrice(total)}</div>
-                                    </div>
-                                    </li>
-                                </ul>
+                                <Select
+                                    className="basic-single"
+                                    classNamePrefix="select"
+                                    defaultValue={breads[0]}
+                                    name="Bread"
+                                    options={breads}
+                                />
+                                <Select
+                                    closeMenuOnSelect={false}
+                                    components={animatedComponents}
+                                    isMulti
+                                    options={toppings}
+                                    onChange={handleChangeMultiSelect}
+                                />
+                                <Select
+                                    closeMenuOnSelect={false}
+                                    components={animatedComponents}
+                                    isMulti
+                                    options={vegetables}
+                                    onChange={handleChangeMultiSelect}
+                                />
+                                <Select
+                                    closeMenuOnSelect={false}
+                                    components={animatedComponents}
+                                    isMulti
+                                    options={sauces}
+                                    onChange={handleChangeMultiSelect}
+                                />
                             </Form>
                         </Modal.Body>
                         <Modal.Footer>
                             <Button variant="secondary" onClick={handleClose}>
                                 Close
                             </Button>
-                            <Button variant="primary" onClick={() => props.addToCart(product, 1)} type="submit" form="form-sandwich" href="/cart">
+                            <Button variant="primary" onClick={handleClick} type="submit" form="form-sandwich" href="/cart">
                                 Add to cart
                             </Button>
                         </Modal.Footer>
