@@ -43,7 +43,7 @@ const CheckoutForm = props => {
                 color: "black",
                 fontWeight: 500,
                 fontFamily: "Roboto, Open Sans, Segoe UI, sans-serif",
-                fontSize: "16px",
+                fontSize: "20px",
                 fontSmoothing: "antialiased",
                 ":-webkit-autofill": {
                     color: "black"
@@ -93,18 +93,18 @@ const CheckoutForm = props => {
     }
 
     return (
-        <div className="App">
+        <div>
 
             {props.user &&
-                <div className="App">
-                    <div style={{ width: "fit-content", margin: "0 auto", padding: "1.5em" }}>
+                <div>
+                    <div style={{ margin: "0 auto", padding: "1.5em" }}>
                         <h1>Checkout - Pay</h1>
                     </div>
 
-                    <div className="login">
+                    <div className="checkoutForm">
                         <Form onSubmit={handleSubmit}>
 
-                            <div className="mb-3">
+                            <div>
                                 <CardElement options={options} onChange={handleChange} />
                             </div>
 
@@ -113,8 +113,8 @@ const CheckoutForm = props => {
                                     <Spinner animation="border" />
                                 </div>
                             ) : (
-                                <div style={{ display: "flex", justifyContent: "space-evenly", margin: "5em 0" }}>
-                                    <Button variant="danger" onClick={() => props.setStep(props.step - 1)}>Terug</Button>
+                                <div style={{ display: "flex", justifyContent: "space-evenly", margin: "2em" }}>
+                                    <Button variant="danger" onClick={() => props.setStep(props.step - 1)}>Cancel</Button>
                                     <Button type="submit" variant="success" disabled={error || processing || disabled || succeeded}>
                                         <span>Pay</span>
                                     </Button>
