@@ -172,7 +172,7 @@ function App() {
           exact
           path="/createsandwich"
           render={props => (
-            <CreateSandwich {...props} user={user} />
+            <CreateSandwich {...props} user={user} addToCart={addToCart} />
           )}>
         </Route>
         <Route
