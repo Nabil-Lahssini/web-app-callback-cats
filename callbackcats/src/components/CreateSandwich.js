@@ -11,9 +11,13 @@ import {
 const CreateSandwich = (props) => {
   const [product, setProduct] = useState({
     name: "Sandwich",
-    ingredients: [],
-    allergies: [],
-    price: 0,
+    ingredients: {
+      bread: 'white',
+      toppings: [],
+      vegetables: [],
+      sauces: []
+    },
+    price: 50,
   });
 
   const [toppings, setToppings] = useState([]);
@@ -71,12 +75,32 @@ const CreateSandwich = (props) => {
     });
   }, []);
 
-  const handleChange = (event) => {
-    const p = product
-      if (event.id === "white-bread") {
-          p.ingredients.push("White bread")
-      } else p.ingredients.push("Brown bread")
+  const handleBreadChange = event => {
+    setProduct(prevProduct => ({ ...prevProduct, ingredients: { ...prevProduct.ingredients, bread: event.target.id } }))
   };
+
+  const handleToppingChange = event => {
+    if (!product.ingredients.toppings.includes(event.target.id)) {
+      setProduct(prevProduct => ({ ...prevProduct, ingredients: { ...prevProduct.ingredients, toppings: prevProduct.ingredients.toppings.concat(event.target.id) }, price: prevProduct.price += 50 }))
+    }
+    else setProduct(prevProduct => ({ ...prevProduct, ingredients: { ...prevProduct.ingredients, toppings: prevProduct.ingredients.toppings.filter(topping => topping !== event.target.id) }, price: prevProduct.price -= 50 }))
+  };
+
+  const handleVegetableChange = event => {
+    if (!product.ingredients.vegetables.includes(event.target.id)) setProduct(prevProduct => ({ ...prevProduct, ingredients: { ...prevProduct.ingredients, vegetables: prevProduct.ingredients.vegetables.concat(event.target.id) }, price: prevProduct.price += 50 }))
+    else setProduct(prevProduct => ({ ...prevProduct, ingredients: { ...prevProduct.ingredients, vegetables: prevProduct.ingredients.vegetables.filter(vegetable => vegetable !== event.target.id) }, price: prevProduct.price -= 50 }))
+  };
+
+  const handleSauceChange = event => {
+    if (!product.ingredients.sauces.includes(event.target.id)) setProduct(prevProduct => ({ ...prevProduct, ingredients: { ...prevProduct.ingredients, sauces: prevProduct.ingredients.sauces.concat(event.target.id) }, price: prevProduct.price += 50 }))
+    else setProduct(prevProduct => ({ ...prevProduct, ingredients: { ...prevProduct.ingredients, sauces: prevProduct.ingredients.sauces.filter(sauce => sauce !== event.target.id) }, price: prevProduct.price -= 50 }))
+  };
+
+  // const handleSumbit = event => {
+  //   event.preventDefault()
+
+  //   props.addToCart(product, 1)
+  // }
 
   return (
     <div className="App">
@@ -96,22 +120,68 @@ const CreateSandwich = (props) => {
             </Modal.Header>
             <Modal.Body>
               <Form id="form-sandwich">
-                <div key="radio" className="mb-3">
-                  <Form.Check
-                    label="White bread"
-                    name="bread"
-                    type="radio"
-                    id="white-bread"
-                    onChange={handleChange}
-                  />
-                  <Form.Check
-                    label="Brown bread"
-                    name="bread"
-                    type="radio"
-                    id="brown-bread"
-                    onChange={handleChange}
-                  />
-                </div>
+                <Form.Group key="radio" className="mb-3">
+                  <Form.Label>Bread</Form.Label>
+                  {breads.map(bread => {
+                    return (
+                      <Form.Check
+                        defaultChecked={bread.value === breads[0].value}
+                        key={breads.indexOf(bread)}
+                        label={bread.value}
+                        name="bread"
+                        type="radio"
+                        id={bread.value}
+                        onChange={handleBreadChange}
+                        required
+                      />
+                    )
+                  })}
+                </Form.Group>
+                <Form.Group className="mb-3">
+                  <Form.Label>Topping(s)</Form.Label>
+                  {toppings.map(topping => {
+                    return (
+                      <Form.Check
+                        key={toppings.indexOf(topping)}
+                        label={topping.value}
+                        name="bread"
+                        type="checkbox"
+                        id={topping.value}
+                        onChange={handleToppingChange}
+                      />
+                    )
+                  })}
+                </Form.Group>
+                <Form.Group className="mb-3">
+                  <Form.Label>Vegetable(s)</Form.Label>
+                  {vegetables.map(vegetable => {
+                    return (
+                      <Form.Check
+                        key={vegetables.indexOf(vegetable)}
+                        label={vegetable.value}
+                        name="bread"
+                        type="checkbox"
+                        id={vegetable.value}
+                        onChange={handleVegetableChange}
+                      />
+                    )
+                  })}
+                </Form.Group>
+                <Form.Group className="mb-3">
+                  <Form.Label>Sauce(s)</Form.Label>
+                  {sauces.map(sauce => {
+                    return (
+                      <Form.Check
+                        key={sauces.indexOf(sauce)}
+                        label={sauce.value}
+                        name="bread"
+                        type="checkbox"
+                        id={sauce.value}
+                        onChange={handleSauceChange}
+                      />
+                    )
+                  })}
+                </Form.Group>
               </Form>
             </Modal.Body>
             <Modal.Footer>
@@ -122,7 +192,7 @@ const CreateSandwich = (props) => {
                 variant="primary"
                 type="submit"
                 form="form-sandwich"
-                href="/cart"
+                onClick={() => props.addToCart(product, 1)}
               >
                 Add to cart
               </Button>
