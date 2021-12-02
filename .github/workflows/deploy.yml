@@ -46,4 +46,4 @@ jobs:
         node-version: ${{ matrix.node-version }}
       
     - name: Start app
-      run: sudo bash /home/ec2-user/launch.sh
+      run: sudo systemctl restart callbackcats_app.service
