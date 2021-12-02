@@ -28,7 +28,7 @@ const Cart = props => {
                             <tbody>
                                 {props.cart.map(item => {
                                     return (
-                                        <tr key={item.product._id}>
+                                        <tr key={props.cart.indexOf(item)}>
                                             <th>{props.cart.indexOf(item) + 1}</th>
                                             <td onClick={() => history.push(`/product/${item.product._id}`)} style={{ cursor: "pointer" }}>{item.product.name}</td>
                                             <td>{item.quantity}</td>
