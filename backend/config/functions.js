@@ -16,7 +16,32 @@ const client = new mongodb.MongoClient(uri, {
 });
 const connection = client.connect();
 
+// USER
+const getUser = async (req, res) => {
+    const token = req.headers.cookie.split('token=')[1];
+    
+    // Decode token
+    let decoded;
+    try {
+        decoded = jwt.verify(token, process.env.TOKEN_KEY);
+    } catch (err) {
+        return res.status(401).send('Invalid Token');
+    }
 
+    connection.then(async _ => {
+        res.json(await client.db(process.env.DATABASE).collection(process.env.TABLE_USERS).findOne({
+            _id: new mongodb.ObjectId(decoded.user_id)
+        })
+        .then(user => {
+            let returnUser = {};
+            for(const e in req.query) {
+                // if(!user[e]) console.log('error');
+                returnUser[e] = user[e];
+            }
+            return returnUser;
+        }));
+    });
+}
 
 //MENUS
 const getMenus = async (req, res) => {
@@ -235,6 +260,17 @@ const login = async (req, res) => {
     // Our login logic ends here
 }
 
+const logout = async (req, res) => {
+    res.clearCookie('token');
+    res.removeHeader('token')
+    res.removeHeader('cookie')
+
+    console.log(req.headers['x-access-token']);
+    console.log(req.headers.cookie);
+    console.log(req.headers.cookie ? req.headers.cookie.split('token=')[1]:'');
+    return res.status(200);
+};
+
 const verify2FAToken = async (req, res) => {
     const email = req.body.email;
     const token = req.body.token;
@@ -326,6 +362,9 @@ const welcome = async (req, res) => {
 }
 
 module.exports = {
+    getUser,
+    logout,
+
     getMenus,
 
     getProducts,

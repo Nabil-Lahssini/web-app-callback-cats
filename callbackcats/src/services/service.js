@@ -10,9 +10,19 @@ let http = axios.create({
   withCredentials: true
 });
 
+// USER
+export const getUser = (options) => {
+  return http.get(`me?${options.join('&')}`);
+}
+
+// LOGOUT
+export const logout = _ => {
+  return http.post('logout');
+}
+
 // MENUS
 export const getMenus = _ => {
-  return http.get("menus", { withCredentials: true });
+  return http.get("menus");
 }
 
 // PRODUCTS

@@ -22,6 +22,9 @@ app.use(cookieParser());
 const auth = require('./middleware/auth');
 
 // Routes
+app.get('/api/v1/me', auth, functions.getUser);
+app.post('/api/v1/logout', auth, functions.logout);
+
 app.get('/api/v1/menus', auth, functions.getMenus);
 
 app.get('/api/v1/products', auth, functions.getProducts);
