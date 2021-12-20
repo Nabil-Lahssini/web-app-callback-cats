@@ -1,4 +1,4 @@
-# Goal
+# Goal 
 We will create a restaurant web application, which will also be available both on your desktop as your phone. In this app, students will be able to view the menu with all of the available products and which allergies this product has. This way, the student knows whether or not it is safe for them to consume. The students will also be able to place orders and pay in advance. To accomplish this, we will be using Stripe to manage payments and keep track of them.
 
 The restaurant employees will be able to view all placed orders with its details. This will allow them to view, create, edit and remove menus and products. This means that the employees will have a dashboard available to them where they can easily access these statistics. Here they will be able to manage their stock, orders, menus and products.
